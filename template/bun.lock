@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "djstoolkit",
+      "name": "djstoolkit-template",
       "devDependencies": {
         "@types/bun": "latest",
       },
