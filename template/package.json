@@ -7,9 +7,13 @@
     "dev": "bun run --watch ."
   },
   "devDependencies": {
+    "@biomejs/biome": "2.5.11",
     "@types/bun": "^1.3.14"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0"
   }
 }
