@@ -11,7 +11,7 @@ export interface DjsConfig {
   modulesDir?: string;
 
   handlers: {
-    all: boolean;
+    all?: boolean;
     commands?: boolean;
     discordEvents?: boolean;
     databaseEvents?: boolean;
