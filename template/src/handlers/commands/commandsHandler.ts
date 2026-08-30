@@ -2,18 +2,11 @@ import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
 import type { CommandConfig, CommandRun } from "@/lib/helpers/defineCommand";
-import type { SubCommandConfig, SubCommandRun } from "@/lib/helpers/defineSubCommand";
 import { Console } from "@/lib/logger";
-
-type SubCommandDefinition = {
-  config: SubCommandConfig;
-  run: SubCommandRun;
-};
 
 type CommandDefinition = {
   config: CommandConfig;
   run: CommandRun;
-  subCommands: Map<string, SubCommandDefinition>;
 };
 
 const commands = new Map<string, CommandDefinition>();
