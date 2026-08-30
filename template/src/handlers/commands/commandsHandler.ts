@@ -21,15 +21,10 @@ const loadCommandFiles = async () => {
     if (!command.config || !command.run)
       throw new Error(`Command file ${fileName} must export both 'config' and 'run'.`);
 
-    if (!command.config.name)
-      throw new Error(
-        `Command file ${fileName} is missing a name — add .setName('...') to the builder.`,
-      );
+    if (!command.config.name) throw new Error(`Command file ${fileName} is missing a name.`);
 
     if (!command.config.description)
-      throw new Error(
-        `Command file ${fileName} is missing a description — add .setDescription('...') to the builder.`,
-      );
+      throw new Error(`Command file ${fileName} is missing a description.`);
 
     if (commands.has(command.config.name))
       throw new Error(`Duplicate command name: '${command.config.name}' (in ${fileName})`);
@@ -55,12 +50,10 @@ const registerSlashCommands = async () => {
   if (process.env.DEV_GUILD_ID) {
     const guild = client.guilds.cache.get(process.env.DEV_GUILD_ID);
     await guild?.commands.set(commandsData);
-    Console.Log(
+    return Console.Log(
       `Registered ${commandsData.length} command(s) to dev guild ${process.env.DEV_GUILD_ID}`,
     );
-    return;
   }
-
   await client.application?.commands.set(commandsData);
   Console.Log(`Registered ${commandsData.length} command(s) globally`);
 };
