@@ -1,53 +1,70 @@
-import type {
-	ActivityType,
-	GatewayIntentBits,
-	Partials,
-	PresenceStatusData,
-} from "discord.js";
+import type { ActivityType, GatewayIntentBits, Partials, PresenceStatusData } from "discord.js";
 
 export interface ErrorContext {
-	name: string;
-	source: "command" | "event" | "worker" | "component";
+  name: string;
+  source: "command" | "event" | "worker" | "component" | "gateway";
 }
 
 export interface DjsConfig {
-	intents: GatewayIntentBits[];
-	partials: Partials[];
-	modulesDir: string;
+  intents: GatewayIntentBits[];
+  partials: Partials[];
+  modulesDir: string;
 
-	handlers: {
-		all?: boolean;
-		commands?: boolean;
-		discordEvents?: boolean;
-		databaseEvents?: boolean;
-		workers?: boolean;
-		components?: boolean;
-	};
+  handlers: {
+    all?: boolean;
+    commands?: boolean;
+    discordEvents?: boolean;
+    databaseEvents?: boolean;
+    workers?: boolean;
+    components?: boolean;
+  };
 
-	presence?: {
-		status?: PresenceStatusData;
-		activity?: {
-			name: string;
-			type?: ActivityType;
-		};
-	};
+  presence?: {
+    status?: PresenceStatusData;
+    activity?: {
+      name: string;
+      type?: ActivityType;
+    };
+  };
 
-	logLevel?: "silent" | "error" | "warn" | "info" | "debug";
+  logLevel?: "silent" | "error" | "warn" | "info" | "debug";
 
-	onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
+  onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
 }
 
-export const defineConfig = (config: DjsConfig) => {
-	const { all, ...explicit } = config.handlers;
+export type ResolvedDjsConfig = {
+  handlers: {
+    commands: boolean;
+    discordEvents: boolean;
+    databaseEvents: boolean;
+    workers: boolean;
+    components: boolean;
+  };
+  intents: GatewayIntentBits[];
+  partials: Partials[];
+  modulesDir: string;
+  presence?: {
+    status?: PresenceStatusData;
+    activity?: {
+      name: string;
+      type?: ActivityType;
+    };
+  };
+  logLevel?: "silent" | "error" | "warn" | "info" | "debug";
+  onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
+};
 
-	return {
-		...config,
-		handlers: {
-			commands: explicit.commands ?? all ?? false,
-			discordEvents: explicit.discordEvents ?? all ?? false,
-			databaseEvents: explicit.databaseEvents ?? all ?? false,
-			workers: explicit.workers ?? all ?? false,
-			components: explicit.commands ?? all ?? false,
-		},
-	};
+export const defineConfig = (config: DjsConfig): ResolvedDjsConfig => {
+  const { all, ...explicit } = config.handlers;
+
+  return {
+    ...config,
+    handlers: {
+      commands: explicit.commands ?? all ?? false,
+      discordEvents: explicit.discordEvents ?? all ?? false,
+      databaseEvents: explicit.databaseEvents ?? all ?? false,
+      workers: explicit.workers ?? all ?? false,
+      components: explicit.commands ?? all ?? false,
+    },
+  };
 };
