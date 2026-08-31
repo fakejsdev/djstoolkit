@@ -26,9 +26,12 @@ const loadCommandFiles = async () => {
 
     if (!command.config || !command.run)
       throw new Error(`Command file ${fileName} must export both 'config' and 'run'.`);
+
     if (!command.config.name) throw new Error(`Command file ${fileName} is missing a name.`);
+
     if (!command.config.description)
       throw new Error(`Command file ${fileName} is missing a description.`);
+
     if (restCommands.has(command.config.name))
       throw new Error(`Duplicate command name: '${command.config.name}' (in ${fileName})`);
 
@@ -48,10 +51,13 @@ const loadCommandGroupFiles = async () => {
       throw new Error(
         `Command group file ${fileName} must export both 'config' and 'subCommands'.`,
       );
+
     if (!groupCommand.config.name)
       throw new Error(`Command group file ${fileName} is missing a name.`);
+
     if (!groupCommand.config.description)
       throw new Error(`Command group file ${fileName} is missing a description.`);
+
     if (restCommands.has(groupCommand.config.name))
       throw new Error(`Duplicate command name: '${groupCommand.config.name}' (in ${fileName})`);
 
