@@ -1,5 +1,6 @@
 import path from "node:path";
 import { config } from "@config";
+import { isCacheValid, updateCache } from "@/lib/cache";
 import { client } from "@/lib/discord";
 import type { CommandRun, defineCommand } from "@/lib/helpers/defineCommand";
 import type { defineCommandGroup } from "@/lib/helpers/defineCommandGroup";
@@ -110,6 +111,14 @@ const attachInteractionListener = () => {
 const registerSlashCommands = async () => {
   const commandsData = Array.from(restCommands.values());
 
+  const cachePayload = { commands: commandsData, guildId: process.env.DEV_GUILD_ID ?? null };
+  const isValid = await isCacheValid("cmd", cachePayload);
+
+  if (isValid) {
+    Console.Log("Commands unchanged, skipping registration.");
+    return;
+  }
+
   const target = process.env.DEV_GUILD_ID
     ? client.guilds.cache.get(process.env.DEV_GUILD_ID)
     : client.application;
@@ -121,6 +130,8 @@ const registerSlashCommands = async () => {
       ? `Registered ${commandsData.length} Command(s) to dev guild ${process.env.DEV_GUILD_ID}`
       : `Registered ${commandsData.length} Command(s) globally`,
   );
+
+  await updateCache("cmd", cachePayload);
 };
 
 export const initCommandHandler = async () => {
