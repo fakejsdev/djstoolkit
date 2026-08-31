@@ -4,7 +4,7 @@ import { Console } from "@/lib/logger";
 export const { config, run } = defineEvent(
   {
     on: "messageCreate",
-    name: "messageLogger",
+    name: "message-logger",
     description: "Logs messages",
   },
   (message) => {
