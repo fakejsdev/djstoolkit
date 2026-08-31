@@ -35,7 +35,7 @@ export interface DjsConfig {
 export type ResolvedDjsConfig = {
   handlers: {
     commands: boolean;
-    discordEvents: boolean;
+    events: boolean;
     databaseEvents: boolean;
     workers: boolean;
     components: boolean;
@@ -61,7 +61,7 @@ export const defineConfig = (config: DjsConfig): ResolvedDjsConfig => {
     ...config,
     handlers: {
       commands: explicit.commands ?? all ?? false,
-      discordEvents: explicit.events ?? all ?? false,
+      events: explicit.events ?? all ?? false,
       databaseEvents: explicit.databaseEvents ?? all ?? false,
       workers: explicit.workers ?? all ?? false,
       components: explicit.commands ?? all ?? false,
