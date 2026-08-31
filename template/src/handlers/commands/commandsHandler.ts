@@ -110,17 +110,17 @@ const attachInteractionListener = () => {
 const registerSlashCommands = async () => {
   const commandsData = Array.from(restCommands.values());
 
-  if (process.env.DEV_GUILD_ID) {
-    const guild = client.guilds.cache.get(process.env.DEV_GUILD_ID);
-    await guild?.commands.set(commandsData);
-    Console.Log(
-      `Registered ${commandsData.length} command(s) to dev guild ${process.env.DEV_GUILD_ID}`,
-    );
-    return;
-  }
+  const target = process.env.DEV_GUILD_ID
+    ? client.guilds.cache.get(process.env.DEV_GUILD_ID)
+    : client.application;
 
-  await client.application?.commands.set(commandsData);
-  Console.Log(`Registered ${commandsData.length} command(s) globally`);
+  await target?.commands.set(commandsData);
+
+  Console.Log(
+    process.env.DEV_GUILD_ID
+      ? `Registered ${commandsData.length} Command(s) to dev guild ${process.env.DEV_GUILD_ID}`
+      : `Registered ${commandsData.length} Command(s) globally`,
+  );
 };
 
 export const initCommandHandler = async () => {
