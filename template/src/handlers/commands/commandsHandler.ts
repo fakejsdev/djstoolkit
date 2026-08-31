@@ -1,18 +1,24 @@
 import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
-import type { CommandConfig, CommandRun } from "@/lib/helpers/defineCommand";
+import type { CommandRun, defineCommand } from "@/lib/helpers/defineCommand";
+import type { defineCommandGroup } from "@/lib/helpers/defineCommandGroup";
+import type { defineSubCommand, SubCommandRun } from "@/lib/helpers/defineSubCommand";
 import { Console } from "@/lib/logger";
 
-type CommandDefinition = {
-  config: CommandConfig;
-  run: CommandRun;
-};
+type CommandDefinition = ReturnType<typeof defineCommand>;
+type CommandGroupDefinition = ReturnType<typeof defineCommandGroup>;
+type SubCommandDefinition = ReturnType<typeof defineSubCommand>;
 
-const commands = new Map<string, CommandDefinition>();
+const restCommands = new Map<
+  string,
+  | CommandDefinition["config"]
+  | (CommandGroupDefinition["config"] & { options: SubCommandDefinition["config"][] })
+>();
+const commands = new Map<string, CommandRun | SubCommandRun>();
 
 const loadCommandFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/*.command.{js,ts}`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.command.{js,ts}`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".command.ts");
@@ -20,16 +26,62 @@ const loadCommandFiles = async () => {
 
     if (!command.config || !command.run)
       throw new Error(`Command file ${fileName} must export both 'config' and 'run'.`);
-
     if (!command.config.name) throw new Error(`Command file ${fileName} is missing a name.`);
-
     if (!command.config.description)
       throw new Error(`Command file ${fileName} is missing a description.`);
-
-    if (commands.has(command.config.name))
+    if (restCommands.has(command.config.name))
       throw new Error(`Duplicate command name: '${command.config.name}' (in ${fileName})`);
 
-    commands.set(command.config.name, command);
+    restCommands.set(command.config.name, command.config);
+    commands.set(command.config.name, command.run);
+  }
+};
+
+const loadCommandGroupFiles = async () => {
+  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.group.{js,ts}`);
+
+  for await (const file of glob.scan(".")) {
+    const fileName = path.basename(file, ".group.ts");
+    const groupCommand: CommandGroupDefinition = await import(path.resolve(file));
+
+    if (!groupCommand.config || !groupCommand.subCommands)
+      throw new Error(
+        `Command group file ${fileName} must export both 'config' and 'subCommands'.`,
+      );
+    if (!groupCommand.config.name)
+      throw new Error(`Command group file ${fileName} is missing a name.`);
+    if (!groupCommand.config.description)
+      throw new Error(`Command group file ${fileName} is missing a description.`);
+    if (restCommands.has(groupCommand.config.name))
+      throw new Error(`Duplicate command name: '${groupCommand.config.name}' (in ${fileName})`);
+
+    const subMap = new Map<string, SubCommandDefinition>();
+
+    for (const sub of groupCommand.subCommands) {
+      if (!sub.config || !sub.run)
+        throw new Error(
+          `A subcommand in group '${groupCommand.config.name}' (${fileName}) must export 'config' and 'run'.`,
+        );
+      if (!sub.config.name)
+        throw new Error(
+          `A subcommand in group '${groupCommand.config.name}' (${fileName}) is missing a name.`,
+        );
+      if (subMap.has(sub.config.name))
+        throw new Error(
+          `Duplicate subcommand: '${sub.config.name}' in group '${groupCommand.config.name}' (${fileName})`,
+        );
+
+      subMap.set(sub.config.name, sub);
+    }
+
+    restCommands.set(groupCommand.config.name, {
+      ...groupCommand.config,
+      options: Array.from(subMap.values()).map((sub) => sub.config),
+    });
+
+    for (const [subName, sub] of subMap) {
+      commands.set(`${groupCommand.config.name}.${subName}`, sub.run);
+    }
   }
 };
 
@@ -37,29 +89,37 @@ const attachInteractionListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand() || !interaction.inCachedGuild()) return;
 
-    const command = commands.get(interaction.commandName);
-    if (!command) return;
+    const subCommandName = interaction.options.getSubcommand(false);
+    const key = subCommandName
+      ? `${interaction.commandName}.${subCommandName}`
+      : interaction.commandName;
 
-    await command.run(interaction);
+    const run = commands.get(key);
+    if (!run) return;
+
+    await run(interaction);
   });
 };
 
 const registerSlashCommands = async () => {
-  const commandsData = Array.from(commands.values()).map((command) => command.config);
+  const commandsData = Array.from(restCommands.values());
 
   if (process.env.DEV_GUILD_ID) {
     const guild = client.guilds.cache.get(process.env.DEV_GUILD_ID);
     await guild?.commands.set(commandsData);
-    return Console.Log(
+    Console.Log(
       `Registered ${commandsData.length} command(s) to dev guild ${process.env.DEV_GUILD_ID}`,
     );
+    return;
   }
+
   await client.application?.commands.set(commandsData);
   Console.Log(`Registered ${commandsData.length} command(s) globally`);
 };
 
 export const initCommandHandler = async () => {
   await loadCommandFiles();
+  await loadCommandGroupFiles();
   attachInteractionListener();
   await registerSlashCommands();
 };
