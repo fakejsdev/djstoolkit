@@ -19,7 +19,7 @@ const restCommands = new Map<
 const commands = new Map<string, CommandRun | SubCommandRun>();
 
 const loadCommandFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.command.{js,ts}`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.command.ts`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".command.ts");
