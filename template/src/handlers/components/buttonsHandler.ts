@@ -18,7 +18,7 @@ const loadCommands = async () => {
     if (!button.config || !button.run)
       throw new Error(`Button file ${fileName} must export both 'config' and 'run'.`);
 
-    if (!button.config.id)
+    if (!button.config.customId)
       throw new Error(`Button file ${fileName} is missing name (must be unique).`);
 
     if (!button.config.name)
@@ -27,10 +27,12 @@ const loadCommands = async () => {
     if (!button.config.description)
       throw new Error(`Button file ${fileName} is missing description.`);
 
-    if (buttons.has(button.config.id))
-      throw new Error(`Duplicate Unique Button ID: '${button.config.id}' (in ${fileName})`);
+    if (buttons.has(button.config.customId))
+      throw new Error(
+        `Duplicate Unique Button Custom ID: '${button.config.customId}' (in ${fileName})`,
+      );
 
-    buttons.set(button.config.id, button);
+    buttons.set(button.config.customId, button);
   }
 };
 
@@ -38,7 +40,7 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton() || !interaction.inCachedGuild()) return;
 
-    const button = buttons.get(interaction.id);
+    const button = buttons.get(interaction.customId);
     if (!button) return;
 
     await button.run(interaction);
