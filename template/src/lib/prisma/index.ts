@@ -4,7 +4,7 @@ import { type Prisma, PrismaClient } from "./generated/client";
 
 type CrudOperation = "create" | "update" | "delete" | "upsert";
 
-type DbEventMap = {
+export type DbEventMap = {
   [K in `${Prisma.ModelName}.${CrudOperation}`]: [unknown];
 };
 
