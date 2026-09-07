@@ -20,7 +20,8 @@ export const config = defineConfig({
     },
   },
 
-  redis: {
+  bullmq: {
+    queueName: "DJSTOOLKIT_WORK_QUEUE",
     hostname: process.env.REDIS_HOSTNAME ?? "localhost",
     port: Number(process.env.REDIS_PORT) || 6379,
   },
