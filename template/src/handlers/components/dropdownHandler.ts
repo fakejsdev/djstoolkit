@@ -12,7 +12,7 @@ const loadDropdownFiles = async () => {
   const glob = new Bun.Glob(`${config.modulesDir}/*/dropdowns/**/*.dropdown.ts`);
 
   for await (const file of glob.scan(".")) {
-    const fileName = path.basename(file);
+    const fileName = path.basename(file, ".dropdown.ts");
     const dropdown: DropdownDefinition = await import(path.resolve(file));
 
     if (!dropdown.config || !dropdown.run)
