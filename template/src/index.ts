@@ -4,7 +4,7 @@ import { client } from "@/lib/discord";
 import { Console } from "@/lib/logger";
 
 client.on("clientReady", async (client) => {
-  await initHandlers(config);
+  await initHandlers();
   Console.Log(`Logged in as ${client.user.tag}`);
 });
 

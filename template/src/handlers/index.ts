@@ -1,10 +1,10 @@
-import type { ResolvedDjsConfig } from "@/lib/helpers/defineConfig";
+import { config } from "@config";
 import { initCommandHandler } from "./commands/commandsHandler";
 import { initComponentsHandler } from "./components";
 import { initDbEventHandler } from "./db/dbEventsHandler";
 import { initEventHandler } from "./events/eventsHandler";
 
-export const initHandlers = async (config: ResolvedDjsConfig) => {
+export const initHandlers = async () => {
   if (config.handlers.commands) await initCommandHandler();
   if (config.handlers.events) await initEventHandler();
   if (config.handlers.components) await initComponentsHandler();
