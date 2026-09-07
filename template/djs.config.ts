@@ -20,5 +20,10 @@ export const config = defineConfig({
     },
   },
 
+  redis: {
+    hostname: process.env.REDIS_HOSTNAME ?? "localhost",
+    port: Number(process.env.REDIS_PORT) || 6379,
+  },
+
   logLevel: "debug",
 });
