@@ -38,7 +38,7 @@ const attachEventListener = () => {
   for (const event of events.values()) {
     client[event.config.once ? "once" : "on"](event.config.on, (...args) => event.run(...args));
   }
-  Console.Log(`Registered ${events.size} Discord Event(s)`);
+  Console.Log(`[Events] Registered ${events.size} Discord Event(s)`);
 };
 
 export const initEventHandler = async () => {
