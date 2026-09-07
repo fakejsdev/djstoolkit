@@ -27,6 +27,11 @@ export interface DjsConfig {
     };
   };
 
+  redis?: {
+    hostname: string;
+    port: number;
+  };
+
   logLevel?: "silent" | "error" | "warn" | "info" | "debug";
 
   onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
@@ -49,6 +54,10 @@ export type ResolvedDjsConfig = {
       name: string;
       type?: ActivityType;
     };
+  };
+  redis?: {
+    hostname: string;
+    port: number;
   };
   logLevel?: "silent" | "error" | "warn" | "info" | "debug";
   onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
