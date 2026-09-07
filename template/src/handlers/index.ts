@@ -7,6 +7,6 @@ import { initEventHandler } from "./events/eventsHandler";
 export const initHandlers = async (config: ResolvedDjsConfig) => {
   if (config.handlers.commands) await initCommandHandler();
   if (config.handlers.events) await initEventHandler();
-  if (config.handlers.databaseEvents) await initDbEventHandler();
   if (config.handlers.components) await initComponentsHandler();
+  if (config.handlers.databaseEvents) await initDbEventHandler();
 };
