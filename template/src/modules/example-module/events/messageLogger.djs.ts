@@ -1,4 +1,4 @@
-import { defineEvent } from "@/lib/helpers/defineEvents";
+import { defineEvent } from "@/lib/helpers/defineEvent";
 import { Console } from "@/lib/logger";
 
 export const { config, run } = defineEvent(

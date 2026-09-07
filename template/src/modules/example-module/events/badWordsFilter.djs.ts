@@ -1,5 +1,5 @@
 import type { GuildTextBasedChannel } from "discord.js";
-import { defineEvent } from "@/lib/helpers/defineEvents";
+import { defineEvent } from "@/lib/helpers/defineEvent";
 
 export const { config, run } = defineEvent(
   {

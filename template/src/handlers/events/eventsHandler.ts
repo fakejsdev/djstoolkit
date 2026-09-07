@@ -1,7 +1,7 @@
 import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
-import type { defineEvent } from "@/lib/helpers/defineEvents";
+import type { defineEvent } from "@/lib/helpers/defineEvent";
 import { Console } from "@/lib/logger";
 
 type EventDefinition = ReturnType<typeof defineEvent>;
