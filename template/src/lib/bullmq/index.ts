@@ -1,10 +1,10 @@
 import { config } from "@config";
 import { type JobsOptions, Queue } from "bullmq";
 
-export const queue = new Queue("DJSTOOLKIT_WORK_QUEUE", {
+export const queue = new Queue(config.bullmq?.queueName ?? "DJSTOOLKIT_WORK_QUEUE", {
   connection: {
-    host: config.redis?.hostname,
-    port: config.redis?.port,
+    host: config.bullmq?.hostname,
+    port: config.bullmq?.port,
   },
 });
 
