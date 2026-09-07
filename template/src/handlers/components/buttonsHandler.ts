@@ -8,7 +8,7 @@ type ButtonDefinition = ReturnType<typeof defineButton>;
 
 const buttons = new Map<string, ButtonDefinition>();
 
-const loadCommands = async () => {
+const loadButtonFiles = async () => {
   const glob = new Bun.Glob(`${config.modulesDir}/*/buttons/**/*.button.ts`);
 
   for await (const file of glob.scan(".")) {
@@ -48,6 +48,6 @@ const attachEventListener = () => {
 };
 
 export const initButtonHandler = async () => {
-  await loadCommands();
+  await loadButtonFiles();
   attachEventListener();
 };
