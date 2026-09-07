@@ -19,17 +19,16 @@ const loadDropdownFiles = async () => {
       throw new Error(`Dropdown file ${fileName} must export both 'config' and 'run'.`);
 
     if (!dropdown.config.customId)
-      throw new Error(`Dropdown file ${fileName} is missing name (must be unique).`);
+      throw new Error(`Dropdown file ${fileName} is missing customId (must be unique).`);
 
-    if (!dropdown.config.name)
-      throw new Error(`Dropdown file ${fileName} is missing name (must be unique).`);
+    if (!dropdown.config.name) throw new Error(`Dropdown file ${fileName} is missing name.`);
 
     if (!dropdown.config.description)
       throw new Error(`Dropdown file ${fileName} is missing description.`);
 
     if (dropdowns.has(dropdown.config.customId))
       throw new Error(
-        `Duplicate Unique Button Custom ID: '${dropdown.config.customId}' (in ${fileName})`,
+        `Duplicate Unique Dropdown Custom ID: '${dropdown.config.customId}' (in ${fileName})`,
       );
 
     dropdowns.set(dropdown.config.customId, dropdown);

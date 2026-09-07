@@ -19,10 +19,9 @@ const loadCommands = async () => {
       throw new Error(`Button file ${fileName} must export both 'config' and 'run'.`);
 
     if (!button.config.customId)
-      throw new Error(`Button file ${fileName} is missing name (must be unique).`);
+      throw new Error(`Button file ${fileName} is missing customId (must be unique).`);
 
-    if (!button.config.name)
-      throw new Error(`Button file ${fileName} is missing name (must be unique).`);
+    if (!button.config.name) throw new Error(`Button file ${fileName} is missing name.`);
 
     if (!button.config.description)
       throw new Error(`Button file ${fileName} is missing description.`);

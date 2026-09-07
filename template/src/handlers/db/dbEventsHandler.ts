@@ -9,7 +9,7 @@ type DbEventDefinition = ReturnType<typeof defineDbEvent>;
 const dbEvents = new Map<string, DbEventDefinition>();
 
 const loadEventFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/db/*.db.ts`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/events/*.db.ts`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".db.ts");
