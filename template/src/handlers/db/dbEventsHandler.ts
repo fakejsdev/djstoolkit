@@ -6,38 +6,38 @@ import { dbEmitter } from "@/lib/prisma";
 
 type DbEventDefinition = ReturnType<typeof defineDbEvent>;
 
-const events = new Map<string, DbEventDefinition>();
+const dbEvents = new Map<string, DbEventDefinition>();
 
 const loadEventFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/events/*.db.ts`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/db/*.db.ts`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".db.ts");
-    const event: DbEventDefinition = await import(path.resolve(file));
+    const dbEvent: DbEventDefinition = await import(path.resolve(file));
 
-    if (!event.config || !event.run)
+    if (!dbEvent.config || !dbEvent.run)
       throw new Error(`Database Event file ${fileName} must export both 'config' and 'run'.`);
 
-    if (!event.config.on)
+    if (!dbEvent.config.on)
       throw new Error(
         `Database Event file ${fileName} is missing 'on' (which event to listen for).`,
       );
 
-    if (!event.config.name)
+    if (!dbEvent.config.name)
       throw new Error(`Database Event file ${fileName} is missing name (must be unique).`);
 
-    if (!event.config.description)
+    if (!dbEvent.config.description)
       throw new Error(`Database Event file ${fileName} is missing description.`);
 
-    if (events.has(event.config.name))
-      throw new Error(`Duplicate Database Event name: '${event.config.name}' (in ${fileName})`);
+    if (dbEvents.has(dbEvent.config.name))
+      throw new Error(`Duplicate Database Event name: '${dbEvent.config.name}' (in ${fileName})`);
 
-    events.set(event.config.name, event);
+    dbEvents.set(dbEvent.config.name, dbEvent);
   }
 };
 
 const attachEventListener = () => {
-  for (const event of events.values()) {
+  for (const event of dbEvents.values()) {
     dbEmitter.on(event.config.on, async (payload) => {
       try {
         await event.run(payload);
@@ -46,7 +46,7 @@ const attachEventListener = () => {
       }
     });
   }
-  Console.Log(`[Database Events] Registered ${events.size} Database Event(s)`);
+  Console.Log(`[Database Events] Registered ${dbEvents.size} Database Event(s)`);
 };
 
 export const initDbEventHandler = async () => {
