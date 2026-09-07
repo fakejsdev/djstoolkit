@@ -3,5 +3,6 @@ namespace NodeJS {
     DISCORD_APP_ID: string;
     DISCORD_BOT_TOKEN: string;
     DEV_GUILD_ID?: string;
+    DATABASE_URL: string;
   }
 }
