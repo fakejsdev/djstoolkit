@@ -1,4 +1,5 @@
 import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
+import { prisma } from "@/lib/prisma";
 
 export const bankWithdraw = defineSubCommand(
   {
@@ -6,9 +7,12 @@ export const bankWithdraw = defineSubCommand(
     description: "Withdraw from bank",
   },
   async (i) => {
-    return await i.reply({
-      content: "Ok!",
-      flags: ["Ephemeral"],
+    const newUser = await prisma.user.create({
+      data: {
+        name: Bun.randomUUIDv7(),
+      },
     });
+
+    return await i.reply(`someguy has been created ${newUser.name} - ${newUser.id}`);
   },
 );
