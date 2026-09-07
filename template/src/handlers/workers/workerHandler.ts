@@ -45,8 +45,8 @@ const attachWorker = () => {
     },
     {
       connection: {
-        host: config.redis?.hostname,
-        port: config.redis?.port,
+        host: config.bullmq?.hostname,
+        port: config.bullmq?.port,
       },
     },
   );
