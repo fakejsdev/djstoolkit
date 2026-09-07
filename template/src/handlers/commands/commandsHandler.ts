@@ -106,6 +106,7 @@ const attachInteractionListener = () => {
 
     await run(interaction);
   });
+  Console.Log(`[Commands] Attached listener to ${commands.size} command(s).`);
 };
 
 const registerSlashCommands = async () => {
@@ -114,10 +115,7 @@ const registerSlashCommands = async () => {
   const cachePayload = { commands: commandsData, guildId: process.env.DEV_GUILD_ID ?? null };
   const isValid = await isCacheValid("cmd", cachePayload);
 
-  if (isValid) {
-    Console.Log("Commands unchanged, skipping registration.");
-    return;
-  }
+  if (isValid) return Console.Log("[Commands] Commands unchanged, skipping registration.");
 
   const target = process.env.DEV_GUILD_ID
     ? client.guilds.cache.get(process.env.DEV_GUILD_ID)
@@ -127,8 +125,8 @@ const registerSlashCommands = async () => {
 
   Console.Log(
     process.env.DEV_GUILD_ID
-      ? `Registered ${commandsData.length} Command(s) to dev guild ${process.env.DEV_GUILD_ID}`
-      : `Registered ${commandsData.length} Command(s) globally`,
+      ? `[Commands] Registered ${commandsData.length} Command(s) to dev guild ${process.env.DEV_GUILD_ID}`
+      : `[Commands] Registered ${commandsData.length} Command(s) globally`,
   );
 
   await updateCache("cmd", cachePayload);

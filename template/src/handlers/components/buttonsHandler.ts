@@ -43,7 +43,7 @@ const attachEventListener = () => {
 
     await button.run(interaction);
   });
-  Console.Log(`(Components Handler) Registered ${buttons.size} button(s)`);
+  Console.Log(`[Components] Registered ${buttons.size} button(s)`);
 };
 
 export const initButtonHandler = async () => {
