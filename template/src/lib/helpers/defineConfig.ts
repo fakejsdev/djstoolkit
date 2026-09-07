@@ -27,9 +27,10 @@ export interface DjsConfig {
     };
   };
 
-  redis?: {
+  bullmq?: {
     hostname: string;
     port: number;
+    queueName: string;
   };
 
   logLevel?: "silent" | "error" | "warn" | "info" | "debug";
@@ -55,9 +56,10 @@ export type ResolvedDjsConfig = {
       type?: ActivityType;
     };
   };
-  redis?: {
+  bullmq?: {
     hostname: string;
     port: number;
+    queueName: string;
   };
   logLevel?: "silent" | "error" | "warn" | "info" | "debug";
   onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
