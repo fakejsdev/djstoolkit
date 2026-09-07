@@ -5,6 +5,7 @@ export const { config, subCommands } = defineCommandGroup(
   {
     name: "bank",
     description: "Manage Bank",
+    permissions: ["Administrator"],
   },
   [bankWithdraw],
 );
