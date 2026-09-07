@@ -4,5 +4,7 @@ namespace NodeJS {
     DISCORD_BOT_TOKEN: string;
     DEV_GUILD_ID?: string;
     DATABASE_URL: string;
+    REDIS_HOSTNAME?: string;
+    REDIS_PORT?: string;
   }
 }
