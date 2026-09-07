@@ -1,5 +1,5 @@
 import type { SlashCommandBuilder } from "discord.js";
-import type { PermissionFlag } from "@/lib/discord/permissions";
+import { type PermissionFlag, resolvePermissions } from "@/lib/discord/permissions";
 import type { defineSubCommand } from "./defineSubCommand";
 
 type CommandGroupJSON = ReturnType<SlashCommandBuilder["toJSON"]>;
@@ -13,4 +13,14 @@ export type CommandGroupSubCommands = Array<ReturnType<typeof defineSubCommand>>
 export const defineCommandGroup = (
   config: CommandGroupConfig,
   subCommands: CommandGroupSubCommands,
-) => ({ config, subCommands });
+) => {
+  const { permissions, ...rest } = config;
+
+  return {
+    config: {
+      ...rest,
+      default_member_permissions: resolvePermissions(permissions),
+    },
+    subCommands,
+  };
+};
