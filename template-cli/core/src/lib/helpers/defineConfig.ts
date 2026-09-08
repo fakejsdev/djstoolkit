@@ -10,15 +10,6 @@ export interface DjsConfig {
   partials: Partials[];
   modulesDir: string;
 
-  handlers: {
-    all?: boolean;
-    commands?: boolean;
-    events?: boolean;
-    databaseEvents?: boolean;
-    workers?: boolean;
-    components?: boolean;
-  };
-
   presence?: {
     status?: PresenceStatusData;
     activity?: {
@@ -39,13 +30,6 @@ export interface DjsConfig {
 }
 
 export type ResolvedDjsConfig = {
-  handlers: {
-    commands: boolean;
-    events: boolean;
-    databaseEvents: boolean;
-    workers: boolean;
-    components: boolean;
-  };
   intents: GatewayIntentBits[];
   partials: Partials[];
   modulesDir: string;
@@ -65,17 +49,4 @@ export type ResolvedDjsConfig = {
   onError?: (error: unknown, ctx: ErrorContext) => unknown | Promise<unknown>;
 };
 
-export const defineConfig = (config: DjsConfig): ResolvedDjsConfig => {
-  const { all, ...explicit } = config.handlers;
-
-  return {
-    ...config,
-    handlers: {
-      commands: explicit.commands ?? all ?? false,
-      events: explicit.events ?? all ?? false,
-      databaseEvents: explicit.databaseEvents ?? all ?? false,
-      workers: explicit.workers ?? all ?? false,
-      components: explicit.commands ?? all ?? false,
-    },
-  };
-};
+export const defineConfig = (config: DjsConfig) => config;

@@ -10,20 +10,12 @@ export const config = defineConfig({
   partials: [Partials.Channel, Partials.GuildMember, Partials.Message],
   modulesDir: "src/modules",
 
-  handlers: { all: true },
-
   presence: {
     status: "online",
     activity: {
       type: ActivityType.Playing,
       name: "with Djs Toolkit",
     },
-  },
-
-  bullmq: {
-    queueName: "DJSTOOLKIT_WORK_QUEUE",
-    hostname: process.env.REDIS_HOSTNAME ?? "localhost",
-    port: Number(process.env.REDIS_PORT) || 6379,
   },
 
   logLevel: "debug",
