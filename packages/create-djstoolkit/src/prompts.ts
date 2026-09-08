@@ -151,5 +151,3 @@ export const getAnswers = async () => {
 
   return { name, features, dbProvider, dbHosting, bullmqHosting, gitInit, installDeps };
 };
-
-console.log(await getAnswers());
