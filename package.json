@@ -1,8 +1,10 @@
 {
   "name": "djstoolkit",
   "private": true,
-  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "@biomejs/biome": "2.5.11"
+    "@biomejs/biome": "2.5.12"
   }
 }
