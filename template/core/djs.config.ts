@@ -17,6 +17,4 @@ export const config = defineConfig({
       name: "with Djs Toolkit",
     },
   },
-
-  logLevel: "debug",
 });
