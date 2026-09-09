@@ -8,10 +8,15 @@ const PROD_TEMPLATE_DIR = join(import.meta.dir, "../template");
 export const TEMPLATE_DIR = existsSync(DEV_TEMPLATE_DIR) ? DEV_TEMPLATE_DIR : PROD_TEMPLATE_DIR;
 
 const isTemplateFragment = (src: string) =>
-  src.endsWith("docker-compose.services.yml") || src.endsWith(".fragment");
+  src.endsWith("docker-compose.services.yml") ||
+  src.endsWith(".fragment") ||
+  src.includes("node_modules");
 
 export const copyTemplate = (targetDir: string, features: Feature[]) => {
-  cpSync(join(TEMPLATE_DIR, "core"), targetDir, { recursive: true });
+  cpSync(join(TEMPLATE_DIR, "core"), targetDir, {
+    recursive: true,
+    filter: (src) => !isTemplateFragment(src),
+  });
 
   if (features.includes("db")) {
     cpSync(join(TEMPLATE_DIR, "features/database"), targetDir, {
