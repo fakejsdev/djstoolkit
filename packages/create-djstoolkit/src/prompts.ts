@@ -40,8 +40,6 @@ export const getAnswers = async () => {
     `${pc.bgCyan(pc.black(` djstoolkit v${pkg.version} `))} ${pc.dim("scaffold a new Discord Bot")}`,
   );
 
-  log.info("Included features by Default\n✔ Commands\n✔ Discord Events\n✔ Buttons & Dropdowns");
-
   const name = await ask(() =>
     text({
       message: "What's the name of your project?",
@@ -55,6 +53,8 @@ export const getAnswers = async () => {
     cancel(`Directory "${name}" already exists and is not empty.`);
     process.exit(1);
   }
+
+  log.info("Included handlers by Default\n✔ Commands\n✔ Discord Events\n✔ Buttons & Dropdowns");
 
   const features = await ask(() =>
     multiselect<Feature>({
