@@ -3,8 +3,8 @@ import { cancel, confirm, intro, isCancel, log, multiselect, select, text } from
 import pc from "picocolors";
 import pkg from "../package.json";
 
-type Feature = "db" | "bullmq";
-type DbProvider = "postgresql" | "sqlite";
+export type Feature = "db" | "bullmq";
+export type DbProvider = "postgresql" | "sqlite";
 
 const NAME_REGEX = /^[a-z0-9-]+$/;
 const SERVER_BASED_DBS: DbProvider[] = ["postgresql"];
