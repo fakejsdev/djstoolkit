@@ -1,7 +1,10 @@
 {
   "name": "create-djstoolkit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "module": "src/index.ts",
+  "scripts": {
+    "prepublishOnly": "rm -rf src/template && cp -r ../../template src/template"
+  },
   "type": "module",
   "bin": {
     "create-djstoolkit": "./src/index.ts"

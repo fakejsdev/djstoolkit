@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 import { note, outro } from "@clack/prompts";
 import { getAnswers } from "./prompts";
 import { scaffold } from "./scaffold";
