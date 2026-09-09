@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { log, spinner, tasks } from "@clack/prompts";
+import { log, spinner } from "@clack/prompts";
 import type { getAnswers } from "../prompts";
 import { copyTemplate } from "./copyTemplate";
 import { mergeBullmqConfig } from "./generate/config";
@@ -9,6 +9,7 @@ import { installDeps } from "./installDeps";
 import { mergeDockerCompose } from "./merge/dockerCompose";
 import { mergeEnv } from "./merge/env";
 import { mergeGitignore } from "./merge/gitignore";
+import { mergeGlobalsDts } from "./merge/globalsDts";
 import { mergePackageJson } from "./merge/packageJson";
 
 export type Answers = Awaited<ReturnType<typeof getAnswers>>;
@@ -17,6 +18,7 @@ const merge = async (targetDir: string, answers: Answers) => {
   await mergeGitignore(targetDir, answers.features);
   await mergeEnv(targetDir, answers.features);
   await mergePackageJson(targetDir, targetDir, answers.features);
+  await mergeGlobalsDts(targetDir, answers.features);
 
   if (answers.features.includes("bullmq")) await mergeBullmqConfig(targetDir);
 
