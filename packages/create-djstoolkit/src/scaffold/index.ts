@@ -1,5 +1,5 @@
 import { join } from "node:path";
-import { log, tasks } from "@clack/prompts";
+import { log, spinner, tasks } from "@clack/prompts";
 import type { getAnswers } from "../prompts";
 import { copyTemplate } from "./copyTemplate";
 import { mergeBullmqConfig } from "./generate/config";
@@ -29,27 +29,26 @@ const merge = async (targetDir: string, answers: Answers) => {
 export const scaffold = async (answers: Answers) => {
   const { name: targetDir, features, gitInit: aGitInit, installDeps: aInstallDeps } = answers;
 
-  await tasks([
-    {
-      title: "Copying template files",
-      task: () => copyTemplate(targetDir, features),
-    },
-    {
-      title: "Merging config files",
-      task: async () => await merge(targetDir, answers),
-    },
-    {
-      title: "Generating handlers file",
-      task: async () =>
-        await Bun.write(join(targetDir, "src/handlers/index.ts"), generateHandlersFile(features)),
-    },
-  ]);
+  log.step("Copying template files...");
+  copyTemplate(targetDir, features);
+
+  log.step("Merging configuration files...");
+  await merge(targetDir, answers);
+
+  log.step("Generating handlers file...");
+  await Bun.write(join(targetDir, "src/handlers/index.ts"), generateHandlersFile(features));
 
   if (aInstallDeps) {
-    log.info("Installing dependencies...");
+    const s = spinner();
+    s.start("Installing dependencies...");
     await installDeps(targetDir);
-    log.info("Done!");
+    s.stop("Installed successfully!");
   }
 
-  if (aGitInit) await gitInit(targetDir);
+  if (aGitInit) {
+    log.step("Initializing Git reposistory...");
+    await gitInit(targetDir);
+  }
+
+  log.success("Done!");
 };
