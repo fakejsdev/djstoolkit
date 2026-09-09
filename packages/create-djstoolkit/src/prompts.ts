@@ -1,10 +1,17 @@
 import { existsSync, readdirSync } from "node:fs";
-import { cancel, confirm, intro, isCancel, multiselect, note, select, text } from "@clack/prompts";
+import { cancel, confirm, intro, isCancel, log, multiselect, select, text } from "@clack/prompts";
 import pc from "picocolors";
 import pkg from "../package.json";
 
 type Feature = "db" | "bullmq";
 type DbProvider = "postgresql" | "sqlite";
+
+const NAME_REGEX = /^[a-z0-9-]+$/;
+const SERVER_BASED_DBS: DbProvider[] = ["postgresql"];
+const DB_LABELS: Record<DbProvider, string> = {
+  postgresql: "PostgreSQL",
+  sqlite: "SQLite",
+};
 
 async function ask<T>(fn: () => Promise<T | symbol>): Promise<T> {
   const result = await fn();
@@ -14,8 +21,6 @@ async function ask<T>(fn: () => Promise<T | symbol>): Promise<T> {
   }
   return result as T;
 }
-
-const NAME_REGEX = /^[a-z0-9-]+$/;
 
 const validate = (value: string | undefined) => {
   if (!value) return "Name is required.";
@@ -30,16 +35,12 @@ const isDirEmpty = (name: string) => {
   return readdirSync(name).length === 0;
 };
 
-const SERVER_BASED_DBS: DbProvider[] = ["postgresql"];
-const DB_LABELS: Record<DbProvider, string> = {
-  postgresql: "PostgreSQL",
-  sqlite: "SQLite",
-};
-
 export const getAnswers = async () => {
   intro(
     `${pc.bgCyan(pc.black(` djstoolkit v${pkg.version} `))} ${pc.dim("scaffold a new Discord Bot")}`,
   );
+
+  log.info("Included features by Default\n✔ Commands\n✔ Discord Events\n✔ Buttons & Dropdowns");
 
   const name = await ask(() =>
     text({
@@ -54,8 +55,6 @@ export const getAnswers = async () => {
     cancel(`Directory "${name}" already exists and is not empty.`);
     process.exit(1);
   }
-
-  note("✔ Commands\n✔ Discord Events\n✔ Buttons & Dropdowns", "Included by default");
 
   const features = await ask(() =>
     multiselect<Feature>({
