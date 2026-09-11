@@ -7,3 +7,9 @@ export const dependencies = {
 export const devDependencies = {
   prisma: "^7.10",
 };
+
+export const scripts = {
+  "prisma:push": "bunx prisma db push",
+  "prisma:generate": "bunx prisma generate",
+  "prisma:studio": "bunx prisma studio",
+};
