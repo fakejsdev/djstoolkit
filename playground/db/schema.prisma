@@ -8,6 +8,7 @@ generator client {
 }
 
 model User {
-    id   Int    @id @default(autoincrement())
-    name String @unique
+    id    String @id
+    xp    Int    @default(0)
+    level Int    @default(1)
 }
