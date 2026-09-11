@@ -10,7 +10,8 @@
     "create-djstoolkit": "./src/index.ts"
   },
   "files": [
-    "src"
+    "src",
+    "tsconfig.json"
   ],
   "dependencies": {
     "@clack/prompts": "^1.7.0",
