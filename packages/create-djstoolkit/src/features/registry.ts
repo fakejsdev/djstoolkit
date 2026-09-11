@@ -10,7 +10,7 @@ export interface FeatureDefinition {
   label: string;
   hint: string;
   providers: { id: string; label: string; needsHosting?: boolean }[];
-  installer: (targetDir: string, answers: Answers[]) => Promise<unknown>;
+  installer: (targetDir: string, answers: Answers) => Promise<unknown>;
 }
 
 export const HOSTING_OPTIONS = [
