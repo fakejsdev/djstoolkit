@@ -18,7 +18,7 @@ export const installDatabase = async (targetDir: string, answers: Answers) => {
   await addPackageDependency(targetDir, dependencies, devDependencies);
   await appendEnvExample(targetDir, join(featureDir, ".env.example"));
   await appendGlobalsDts(targetDir, join(featureDir, "database.d.ts"));
-  await appendGitignore(targetDir, join(featureDir, ".gitignore"));
+  await appendGitignore(targetDir, featureDir);
 
   if (answers.dbHosting === "docker") {
     await mergeDockerComposeService(targetDir, join(featureDir, "docker-compose.services.yml"));
