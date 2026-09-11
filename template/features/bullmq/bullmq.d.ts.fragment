@@ -1,2 +1,0 @@
-REDIS_HOSTNAME?: string;
-REDIS_PORT?: string;
