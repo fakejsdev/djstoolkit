@@ -25,6 +25,4 @@ logs
 # OS
 .DS_Store
 
-# local scaffold test output (testing `create-djstoolkit` locally)
-/test-output
-/*.test-project
+
