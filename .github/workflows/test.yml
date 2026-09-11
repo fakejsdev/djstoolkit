@@ -1,0 +1,28 @@
+name: Test & Lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+      - name: Install dependencies
+        run: bun install
+      - name: Lint (Biome)
+        run: bunx biome ci .
+      - name: Type check
+        run: |
+          for dir in packages/create-djstoolkit template/core template/features/*/; do
+            echo "::group::Type checking $dir"
+            (cd "$dir" && bunx tsc --noEmit)
+            echo "::endgroup::"
+          done
+      - name: Run tests
+        run: bun test
