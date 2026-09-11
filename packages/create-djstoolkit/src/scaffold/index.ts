@@ -31,13 +31,17 @@ export const scaffold = async (answers: Answers) => {
   if (answers.installDependencies) {
     const s = spinner();
     s.start("Installing dependencies...");
-    await installDeps(targetDir);
-    s.stop("Installed successfully!");
+
+    const success = await installDeps(targetDir);
+
+    success
+      ? s.stop("Dependencies Installed!")
+      : s.error("Failed to install dependencies — run `bun install` manually.");
   }
 
   if (answers.gitInit) {
-    log.step("Initializing Git repository...");
-    await gitInit(targetDir);
+    const success = await gitInit(targetDir);
+    if (success) log.step("Git repository initialized!");
   }
 
   log.success("🧩 Setup complete!");
