@@ -3,10 +3,12 @@ import { join } from "node:path";
 export const updatePackageJson = async (
   targetDir: string,
   {
+    name,
     dependencies,
     devDependencies,
     scripts,
   }: {
+    name?: string;
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
     scripts?: Record<string, string>;
@@ -15,6 +17,7 @@ export const updatePackageJson = async (
   const pkgPath = join(targetDir, "package.json");
   const pkg = await Bun.file(pkgPath).json();
 
+  if (name) pkg.name = name;
   if (dependencies) {
     pkg.dependencies ??= {};
     Object.assign(pkg.dependencies, dependencies);

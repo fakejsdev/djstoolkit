@@ -11,6 +11,7 @@ export const scaffold = async (answers: Answers) => {
 
   log.step("Copying Core Features...");
   copyTemplate(targetDir);
+  await updatePackageJson(targetDir, { name: answers.name });
 
   for (const feature of FEATURES.filter((f) => answers.features.includes(f.id))) {
     log.step(`Installing ${feature.label}...`);
