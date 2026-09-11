@@ -22,11 +22,15 @@ nextSteps.push(
 );
 
 if (answers.bullmqHosting === "docker" || answers.dbHosting === "docker") {
-  nextSteps.push("docker compose -f docker-compose.services.yml up -d");
+  nextSteps.push("bun run services:up");
+}
+
+if (answers.dbProvider) {
+  nextSteps.push("bun run prisma:push");
+  nextSteps.push("bun run prisma:generate");
 }
 
 nextSteps.push("bun run dev");
 
 note(nextSteps.join("\n"), "🎉 Project ready! Next steps");
-
 outro("🥳 Happy coding!");
