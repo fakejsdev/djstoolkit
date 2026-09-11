@@ -6,6 +6,7 @@
     "test": "bun test",
     "prepublishOnly": "bun test && bun scripts/preparePublish.ts"
   },
+
   "type": "module",
   "bin": {
     "create-djstoolkit": "./src/index.ts"
@@ -24,5 +25,21 @@
   },
   "peerDependencies": {
     "typescript": "^5"
-  }
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "discord-bot",
+    "command-handler",
+    "slash-commands",
+    "event-handler",
+    "bot-framework",
+    "cli",
+    "scaffold",
+    "create",
+    "typescript",
+    "bun",
+    "boilerplate",
+    "template"
+  ]
 }
