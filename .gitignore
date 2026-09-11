@@ -28,5 +28,3 @@ logs
 # local scaffold test output (testing `create-djstoolkit` locally)
 /test-output
 /*.test-project
-
-biome.json

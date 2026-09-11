@@ -1,16 +1,18 @@
 {
   "name": "create-djstoolkit",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "module": "src/index.ts",
   "scripts": {
-    "prepublishOnly": "rm -rf src/template && cp -r ../../template src/template"
+    "test": "bun test",
+    "prepublishOnly": "bun test && bun scripts/preparePublish.ts"
   },
   "type": "module",
   "bin": {
     "create-djstoolkit": "./src/index.ts"
   },
   "files": [
-    "src"
+    "src",
+    "tsconfig.json"
   ],
   "dependencies": {
     "@clack/prompts": "^1.7.0",

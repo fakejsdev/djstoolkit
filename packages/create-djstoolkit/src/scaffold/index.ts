@@ -1,56 +1,48 @@
-import { join } from "node:path";
 import { log, spinner } from "@clack/prompts";
-import type { getAnswers } from "../prompts";
-import { copyTemplate } from "./copyTemplate";
-import { mergeBullmqConfig } from "./generate/config";
-import { generateHandlersFile } from "./generate/handlers";
-import { gitInit } from "./gitInit";
-import { installDeps } from "./installDeps";
-import { mergeDockerCompose } from "./merge/dockerCompose";
-import { mergeEnv } from "./merge/env";
-import { mergeGitignore } from "./merge/gitignore";
-import { mergeGlobalsDts } from "./merge/globalsDts";
-import { mergePackageJson } from "./merge/packageJson";
-
-export type Answers = Awaited<ReturnType<typeof getAnswers>>;
-
-const merge = async (targetDir: string, answers: Answers) => {
-  await mergeGitignore(targetDir, answers.features);
-  await mergeEnv(targetDir, answers.features);
-  await mergePackageJson(targetDir, targetDir, answers.features);
-  await mergeGlobalsDts(targetDir, answers.features);
-
-  if (answers.features.includes("bullmq")) await mergeBullmqConfig(targetDir);
-
-  await mergeDockerCompose(targetDir, answers.features, {
-    bullmq: answers.bullmqHosting,
-    db: answers.dbHosting,
-  });
-};
+import { FEATURES } from "@/features/registry";
+import type { Answers } from "@/prompts";
+import { gitInit } from "@/tasks/gitInit";
+import { installDeps } from "@/tasks/installDeps";
+import { copyTemplate } from "@/utils/copyTemplate";
+import { updatePackageJson } from "@/utils/updatePackageJson";
 
 export const scaffold = async (answers: Answers) => {
-  const { name: targetDir, features, gitInit: aGitInit, installDeps: aInstallDeps } = answers;
+  const targetDir = answers.name;
 
-  log.step("Copying template files...");
-  copyTemplate(targetDir, features);
+  log.step("Copying Core Features...");
+  copyTemplate(targetDir);
+  await updatePackageJson(targetDir, { name: answers.name });
 
-  log.step("Merging configuration files...");
-  await merge(targetDir, answers);
+  for (const feature of FEATURES.filter((f) => answers.features.includes(f.id))) {
+    log.step(`Installing ${feature.label}...`);
+    await feature.installer(targetDir, answers);
+  }
 
-  log.step("Generating handlers file...");
-  await Bun.write(join(targetDir, "src/handlers/index.ts"), generateHandlersFile(features));
+  if (answers.dbHosting === "docker" || answers.bullmqHosting === "docker") {
+    await updatePackageJson(targetDir, {
+      scripts: {
+        "services:up": "docker compose -f docker-compose.services.yml up -d",
+        "services:down": "docker compose -f docker-compose.services.yml down",
+        "services:reset": "docker compose -f docker-compose.services.yml down -v",
+      },
+    });
+  }
 
-  if (aInstallDeps) {
+  if (answers.installDependencies) {
     const s = spinner();
     s.start("Installing dependencies...");
-    await installDeps(targetDir);
-    s.stop("Installed successfully!");
+
+    const success = await installDeps(targetDir);
+
+    success
+      ? s.stop("Dependencies Installed!")
+      : s.error("Failed to install dependencies — run `bun install` manually.");
   }
 
-  if (aGitInit) {
-    log.step("Initializing Git reposistory...");
-    await gitInit(targetDir);
+  if (answers.gitInit) {
+    const success = await gitInit(targetDir);
+    if (success) log.step("Git repository initialized!");
   }
 
-  log.success("Done!");
+  log.success("🧩 Setup complete!");
 };
