@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "module": "src/index.ts",
   "scripts": {
+    "test": "bun test",
     "prepublishOnly": "rm -rf src/template && cp -r ../../template src/template"
   },
   "type": "module",
