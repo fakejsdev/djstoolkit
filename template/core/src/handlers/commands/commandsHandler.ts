@@ -42,7 +42,7 @@ const loadCommandFiles = async () => {
 };
 
 const loadCommandGroupFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.group.{js,ts}`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/commands/**/*.group.ts`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".group.ts");
