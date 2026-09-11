@@ -1,7 +1,13 @@
 #!/usr/bin/env bun
-import { note, outro } from "@clack/prompts";
+import { intro, note, outro } from "@clack/prompts";
+import pkg from "@root/package.json";
+import pc from "picocolors";
 import { getAnswers } from "./prompts";
 import { scaffold } from "./scaffold";
+
+intro(
+  `${pc.bgCyan(pc.black(` djstoolkit v${pkg.version} `))} ${pc.dim("scaffold a new Discord Bot")}`,
+);
 
 const answers = await getAnswers();
 await scaffold(answers);
@@ -21,9 +27,6 @@ if (answers.bullmqHosting === "docker" || answers.dbHosting === "docker") {
 
 nextSteps.push("bun run dev");
 
-note(
-  nextSteps.map((step) => (step.startsWith("Fill in") ? step : `$ ${step}`)).join("\n"),
-  "🎉 Project ready! Next steps",
-);
+note(nextSteps.join("\n"), "🎉 Project ready! Next steps");
 
 outro("🥳 Happy coding!");

@@ -7,5 +7,5 @@ export const appendGlobalsDts = async (targetDir: string, fragmentPath: string) 
 
   const declareGlobalBlock = fragment.replace(/^export\s*{\s*};?\s*/m, "").trim();
 
-  await Bun.write(targetPath, `${target}\n\n${declareGlobalBlock}\n`);
+  await Bun.write(targetPath, `${target}\n${declareGlobalBlock}\n`);
 };
