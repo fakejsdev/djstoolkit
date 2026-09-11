@@ -5,6 +5,7 @@ import { appendGlobalsDts } from "@/utils/appendGlobalsDts";
 import { appendEnvExample, appendGitignore } from "@/utils/appendToFile";
 import { TEMPLATE_DIR } from "@/utils/copyTemplate";
 import { mergeDockerComposeService } from "@/utils/mergeDockerComposeService";
+import { registerHandler } from "@/utils/registerHandler";
 import { updatePackageJson } from "@/utils/updatePackageJson";
 import { dependencies, devDependencies, scripts } from "./dependencies";
 
@@ -15,6 +16,7 @@ export const installDatabase = async (targetDir: string, answers: Answers) => {
   cpSync(join(featureDir, "db"), join(targetDir, "db"), { recursive: true });
   cpSync(join(featureDir, "prisma.config.ts"), join(targetDir, "prisma.config.ts"));
 
+  await registerHandler(targetDir, "initDbEventHandler", "./db/dbEventsHandler");
   await updatePackageJson(targetDir, { dependencies, devDependencies, scripts });
   await appendEnvExample(targetDir, join(featureDir, ".env.example"));
   await appendGlobalsDts(targetDir, join(featureDir, "database.d.ts"));
