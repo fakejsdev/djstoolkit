@@ -1,0 +1,12 @@
+{
+  "name": "@djstoolkit/template-bullmq",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "^1.3.14"
+  },
+  "dependencies": {
+    "discord.js": "^14.27.0",
+    "bullmq": "^5",
+    "ioredis": "^5"
+  }
+}
