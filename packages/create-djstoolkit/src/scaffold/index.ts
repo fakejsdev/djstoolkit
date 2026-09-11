@@ -4,6 +4,7 @@ import type { Answers } from "@/prompts";
 import { gitInit } from "@/tasks/gitInit";
 import { installDeps } from "@/tasks/installDeps";
 import { copyTemplate } from "@/utils/copyTemplate";
+import { updatePackageJson } from "@/utils/updatePackageJson";
 
 export const scaffold = async (answers: Answers) => {
   const targetDir = answers.name;
@@ -14,6 +15,16 @@ export const scaffold = async (answers: Answers) => {
   for (const feature of FEATURES.filter((f) => answers.features.includes(f.id))) {
     log.step(`Installing ${feature.label}...`);
     await feature.installer(targetDir, answers);
+  }
+
+  if (answers.dbHosting === "docker" || answers.bullmqHosting === "docker") {
+    await updatePackageJson(targetDir, {
+      scripts: {
+        "services:up": "docker compose -f docker-compose.services.yml up -d",
+        "services:down": "docker compose -f docker-compose.services.yml down",
+        "services:reset": "docker compose -f docker-compose.services.yml down -v",
+      },
+    });
   }
 
   if (answers.installDependencies) {
