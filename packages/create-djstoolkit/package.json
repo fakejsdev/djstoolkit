@@ -1,12 +1,11 @@
 {
   "name": "create-djstoolkit",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "module": "src/index.ts",
   "scripts": {
     "test": "bun test",
     "prepublishOnly": "bun test && bun scripts/preparePublish.ts"
   },
-
   "type": "module",
   "bin": {
     "create-djstoolkit": "./src/index.ts"
