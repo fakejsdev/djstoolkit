@@ -33,7 +33,7 @@ const loadWorkerFiles = async () => {
 
 const attachWorker = () => {
   const worker = new Worker(
-    "DJSTOOLKIT_WORK_QUEUE",
+    config.bullmq?.queueName ?? "DJSTOOLKIT_WORK_QUEUE",
     async (job) => {
       const definition = workers.get(job.name);
 
