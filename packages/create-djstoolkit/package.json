@@ -4,7 +4,7 @@
   "module": "src/index.ts",
   "scripts": {
     "test": "bun test",
-    "prepublishOnly": "rm -rf src/template && cp -r ../../template src/template"
+    "prepublishOnly": "bun test && bun scripts/preparePublish.ts"
   },
   "type": "module",
   "bin": {
