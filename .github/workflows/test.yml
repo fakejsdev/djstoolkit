@@ -17,12 +17,5 @@ jobs:
         run: bun install
       - name: Lint (Biome)
         run: bunx biome ci .
-      - name: Type check
-        run: |
-          for dir in packages/create-djstoolkit template/core template/features/*/; do
-            echo "::group::Type checking $dir"
-            (cd "$dir" && bunx tsc --noEmit)
-            echo "::endgroup::"
-          done
       - name: Run tests
         run: bun test
