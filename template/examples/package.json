@@ -1,0 +1,7 @@
+{
+  "name": "@djstoolkit/examples",
+  "private": true,
+  "peerDependencies": {
+    "discord.js": "*"
+  }
+}
