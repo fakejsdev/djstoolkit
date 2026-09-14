@@ -32,6 +32,20 @@ export const getAnswers = async () => {
 
   log.info("Included handlers by Default\n✔ Commands\n✔ Discord Events\n✔ Buttons & Dropdowns");
 
+  const withExamples = await ask(() =>
+    select({
+      message: "How do you want to scaffold your project?",
+      options: [
+        {
+          value: true,
+          label: "Full Scaffold",
+          hint: "Includes example modules to get you started",
+        },
+        { value: false, label: "Barebones", hint: "Clean structure, no example code" },
+      ],
+    }),
+  );
+
   const features = await ask(() =>
     multiselect<Feature>({
       message: "Which features do you want to include?",
@@ -87,5 +101,14 @@ export const getAnswers = async () => {
     }),
   );
 
-  return { name, features, dbProvider, dbHosting, bullmqHosting, gitInit, installDependencies };
+  return {
+    name,
+    withExamples,
+    features,
+    dbProvider,
+    dbHosting,
+    bullmqHosting,
+    gitInit,
+    installDependencies,
+  };
 };
