@@ -1,7 +1,6 @@
 {
   "extends": "../core/tsconfig.json",
   "compilerOptions": {
-    "typeRoots": ["../core/node_modules/@types", "../core/node_modules"],
     "paths": {
       "@/*": ["../core/src/*"],
       "@config": ["../core/djs.config.ts"]
