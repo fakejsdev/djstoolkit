@@ -39,10 +39,13 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isModalSubmit() || !interaction.inCachedGuild()) return;
 
-    const modal = modals.get(interaction.customId);
+    const [baseId, sessionId] = interaction.customId.split(":");
+    if (!baseId) return;
+
+    const modal = modals.get(baseId);
     if (!modal) return;
 
-    await modal.run(interaction);
+    await modal.run(interaction, sessionId);
   });
 
   Console.Log(`[Components] Registered ${modals.size} modal(s)`);

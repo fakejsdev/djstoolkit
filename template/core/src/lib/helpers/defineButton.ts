@@ -7,6 +7,6 @@ export type ButtonConfig = {
   name: string;
   description: string;
 };
-export type ButtonRun = (i: ButtonInteraction) => unknown | Promise<unknown>;
+export type ButtonRun = (i: ButtonInteraction, sessionId?: string) => unknown | Promise<unknown>;
 
 export const defineButton = (config: ButtonConfig, run: ButtonRun) => ({ config, run });

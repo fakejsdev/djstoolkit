@@ -7,6 +7,6 @@ type ModalConfig = {
   name: string;
   description: string;
 };
-type ModalRun = (i: ModalInteraction) => unknown | Promise<unknown>;
+type ModalRun = (i: ModalInteraction, sessionId?: string) => unknown | Promise<unknown>;
 
 export const defineModal = (config: ModalConfig, run: ModalRun) => ({ config, run });

@@ -39,10 +39,13 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isStringSelectMenu() || !interaction.inCachedGuild()) return;
 
-    const dropdown = dropdowns.get(interaction.customId);
+    const [baseId, sessionId] = interaction.customId.split(":");
+    if (!baseId) return;
+
+    const dropdown = dropdowns.get(baseId);
     if (!dropdown) return;
 
-    await dropdown.run(interaction);
+    await dropdown.run(interaction, sessionId);
   });
   Console.Log(`[Components] Registered ${dropdowns.size} dropdown(s)`);
 };

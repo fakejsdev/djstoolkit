@@ -7,6 +7,9 @@ export type DropdownConfig = {
   name: string;
   description: string;
 };
-export type DropdownRun = (i: DropdownInteraction) => unknown | Promise<unknown>;
+export type DropdownRun = (
+  i: DropdownInteraction,
+  sessionId?: string,
+) => unknown | Promise<unknown>;
 
 export const defineDropdown = (config: DropdownConfig, run: DropdownRun) => ({ config, run });
