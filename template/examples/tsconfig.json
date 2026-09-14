@@ -1,9 +1,0 @@
-{
-  "extends": "../core/tsconfig.json",
-  "compilerOptions": {
-    "paths": {
-      "@/*": ["../core/src/*"],
-      "@config": ["../core/djs.config.ts"]
-    }
-  }
-}
