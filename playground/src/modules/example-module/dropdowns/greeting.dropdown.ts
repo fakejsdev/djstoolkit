@@ -9,6 +9,13 @@ export const { config, run } = defineDropdown(
   async (interaction) => {
     const selected = interaction.values[0];
 
-    return await interaction.reply(`Selected: ${selected}!`);
+    switch (selected) {
+      case "hello":
+        await interaction.reply("HELLO!!!");
+        break;
+      case "bye":
+        await interaction.reply("Bye:(");
+        break;
+    }
   },
 );

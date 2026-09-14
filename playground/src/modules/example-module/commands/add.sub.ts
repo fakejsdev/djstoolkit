@@ -4,7 +4,7 @@ import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
 export const add = defineSubCommand(
   {
     name: "add",
-    description: "Adds two integeres",
+    description: "Adds two integers",
     options: [
       {
         type: ApplicationCommandOptionType.Integer,

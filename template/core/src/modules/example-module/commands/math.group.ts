@@ -5,7 +5,7 @@ import { subtract } from "./subtract.sub";
 export const { config, subCommands } = defineCommandGroup(
   {
     name: "math",
-    description: "Just the math",
+    description: "Basic math operations",
   },
   [add, subtract],
 );

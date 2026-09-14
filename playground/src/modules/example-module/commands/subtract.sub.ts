@@ -4,7 +4,7 @@ import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
 export const subtract = defineSubCommand(
   {
     name: "subtract",
-    description: "Subtracts two integeres",
+    description: "Subtracts two integers",
     options: [
       {
         type: ApplicationCommandOptionType.Integer,
