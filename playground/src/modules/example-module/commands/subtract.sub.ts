@@ -1,6 +1,8 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
 
+// see add.sub.ts for defineSubCommand documentation
+
 export const subtract = defineSubCommand(
   {
     name: "subtract",

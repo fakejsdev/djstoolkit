@@ -1,6 +1,13 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
 
+/*
+  defineSubCommand — registers a subcommand, must be added to a command group via defineCommandGroup
+  name        — subcommand name shown in Discord
+  description — short description shown in Discord
+  options     — command arguments; use ApplicationCommandOptionType to declare the type of each
+*/
+
 export const add = defineSubCommand(
   {
     name: "add",

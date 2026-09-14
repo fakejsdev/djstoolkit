@@ -7,6 +7,15 @@ import {
 } from "discord.js";
 import { defineCommand } from "@/lib/helpers/defineCommand";
 
+/*
+  defineCommand — registers a slash command handler
+  name        — command name used to invoke it (e.g. /ping)
+  description — short description shown in Discord
+
+  customId in ButtonBuilder/StringSelectMenuBuilder must match the customId
+  defined in the corresponding defineButton/defineDropdown handler
+*/
+
 export const { config, run } = defineCommand(
   {
     name: "ping",
