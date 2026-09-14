@@ -4,6 +4,7 @@
   "workspaces": [
     "packages/*",
     "template/core",
+    "template/examples",
     "template/features/*"
   ],
   "devDependencies": {
