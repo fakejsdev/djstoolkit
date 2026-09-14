@@ -3,5 +3,8 @@
   "private": true,
   "peerDependencies": {
     "discord.js": "*"
+  },
+  "devDependencies": {
+    "@types/bun": "*"
   }
 }
