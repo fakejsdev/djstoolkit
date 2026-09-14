@@ -1,10 +1,10 @@
 import { ApplicationCommandOptionType } from "discord.js";
 import { defineSubCommand } from "@/lib/helpers/defineSubCommand";
 
-export const add = defineSubCommand(
+export const subtract = defineSubCommand(
   {
-    name: "add",
-    description: "Adds two integeres",
+    name: "subtract",
+    description: "Subtracts two integeres",
     options: [
       {
         type: ApplicationCommandOptionType.Integer,
@@ -24,8 +24,8 @@ export const add = defineSubCommand(
     const value1 = interaction.options.getInteger("value1", true);
     const value2 = interaction.options.getInteger("value2", true);
 
-    const res = (value1 + value2).toFixed(2);
+    const res = (value1 - value2).toFixed(2);
 
-    return await interaction.reply(`${value1}+${value2}=${res}`);
+    return await interaction.reply(`${value1}-${value2}=${res}`);
   },
 );
