@@ -1,14 +1,16 @@
 {
-  "name": "@djstoolkit/template-database",
+  "name": "@djstoolkit/feature-database",
   "private": true,
+  "peerDependencies": {
+    "discord.js": "*",
+    "@types/bun": "*"
+  },
   "devDependencies": {
-    "@types/bun": "^1.3.14",
-    "prisma": "^7.10"
+    "prisma": "^7.10.0"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.10",
-    "@prisma/client": "^7.10",
-    "discord.js": "^14.27.0",
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "dotenv": "^17.4.2"
   }
 }
