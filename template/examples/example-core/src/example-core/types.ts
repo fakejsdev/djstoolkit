@@ -1,0 +1,9 @@
+export const BUTTONS = {
+  REFRESH_BUTTON: "BTN_REFRESH_PING",
+} as const;
+
+export const DROPDOWNS = {
+  INFO: "DROPDOWN_INFO",
+  GUILD_INFO_OP: "DROPDOWN_GUILD_INFO_OP",
+  SELF_INFO_OP: "DROPDOWN_SELF_INFO_OP",
+} as const;
