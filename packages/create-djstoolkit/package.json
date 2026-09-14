@@ -1,6 +1,6 @@
 {
   "name": "create-djstoolkit",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "module": "src/index.ts",
   "scripts": {
     "test": "bun test",
