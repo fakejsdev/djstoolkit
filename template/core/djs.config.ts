@@ -17,4 +17,8 @@ export const config = defineConfig({
       name: "with Djs Toolkit",
     },
   },
+
+  onError: (error, ctx) => {
+    console.error(`[${ctx.source}] ${ctx.name}:`, error);
+  },
 });
