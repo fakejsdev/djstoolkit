@@ -28,7 +28,7 @@ const loadModalFiles = async () => {
 
     if (modals.has(modal.config.customId))
       throw new Error(
-        `Duplicate Unique Dropdown Custom ID: '${modal.config.customId}' (in ${fileName})`,
+        `Duplicate Unique Modal Custom ID: '${modal.config.customId}' (in ${fileName})`,
       );
 
     modals.set(modal.config.customId, modal);
