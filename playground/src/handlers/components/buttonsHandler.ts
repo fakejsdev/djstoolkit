@@ -39,10 +39,13 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton() || !interaction.inCachedGuild()) return;
 
-    const button = buttons.get(interaction.customId);
+    const [baseId, sessionId] = interaction.customId.split(":");
+    if (!baseId) return;
+
+    const button = buttons.get(baseId);
     if (!button) return;
 
-    await button.run(interaction);
+    await button.run(interaction, sessionId);
   });
   Console.Log(`[Components] Registered ${buttons.size} button(s)`);
 };
