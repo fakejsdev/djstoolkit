@@ -1,52 +1,84 @@
-# djstoolkit
+<div align="center">
+  <h1>🧩 DJSToolkit</h1>
+  <p><strong>A blazing-fast, enterprise-grade Discord.js bot framework + scaffolding CLI powered by Bun.</strong></p>
+</div>
 
-An opinionated Discord.js bot framework + scaffolding CLI. Get a fully working bot — commands, events, buttons, dropdowns — running in minutes, with database (Prisma) and background jobs (BullMQ) as opt-in features.
+Get a fully working bot — commands, events, buttons, dropdowns, and modals — running in minutes. Scale infinitely with modular, opt-in features like PostgreSQL databases, Redis queues, and internal event buses.
 
 ```bash
 bun create djstoolkit
 ```
 
-## What's in this repo
+---
+
+## 📖 Documentation
+
+Full documentation is available in the [`/docs`](./docs) folder:
+- [Getting Started & Installation](./docs/getting-started.md)
+- [Core Features (Commands, Components, Events)](./docs/core/commands.md)
+- [Modular Features (DB, BullMQ, Store, Relay)](./docs/features/database.md)
+
+---
+
+## ✨ Features
+
+- **Blazing Fast**: Powered by Bun. Starts instantly, runs incredibly fast.
+- **Maximum Flexibility**: Choose what you need via the CLI. Want Prisma? BullMQ? Just select them.
+- **Revolutionary Component Routing**: Say goodbye to complicated Collectors. DJSToolkit routes Buttons, Dropdowns, and Modals dynamically with session state using a smart `prefix:uuid` router.
+- **Strict Type-Safety**: Intelligent `JobRegistry` and `RelayRegistry` ensure you get 100% IntelliSense across your entire codebase via Module Augmentation.
+- **File-Based Handlers**: No giant switch statements. Just drop a file in `src/modules/` and export `config` and `run`.
+
+---
+
+## 🏗️ What's in this repo?
 
 This is a monorepo containing both the CLI and the bot template it scaffolds.
 
-```
+```text
 djstoolkit/
 ├── packages/
-│   └── create-djstoolkit/     the scaffolding CLI (published to npm)
+│   └── create-djstoolkit/     # The scaffolding CLI (published to npm)
+├── docs/                      # Official Documentation
 └── template/
-    ├── core/                  always included: commands, events, components, config, logger
+    ├── core/                  # Included: commands, events, components, config, logger
+    ├── examples/              # Fully working example modules for full-scaffold
     └── features/
-        ├── database/          opt-in: Prisma ORM + PostgreSQL
-        └── bullmq/            opt-in: background jobs via BullMQ + Redis
+        ├── database/          # Opt-in: Prisma ORM + PostgreSQL
+        ├── bullmq/            # Opt-in: Background jobs via BullMQ + Redis
+        ├── store/             # Opt-in: In-Memory TTL Cache for component state
+        └── relay/             # Opt-in: Type-safe internal event bus (Pub/Sub)
 ```
 
-`create-djstoolkit` never invents code — it copies files straight out of `template/` and wires them together based on what you select.
+`create-djstoolkit` never invents code — it copies files straight out of `template/` and wires them together based on your selections.
 
-## Architecture
+---
+
+## 📐 Architecture
 
 ### `defineX(config, run)` pattern
 
-Every handler type (commands, events, buttons, dropdowns, workers, database events) is declared with the same shape: a `config` object and a `run` function.
+Every handler type (commands, events, buttons, dropdowns, modals, workers, database events) is declared with the exact same shape: a `config` object and a `run` function.
 
 ```ts
-export const config = { name: "ping", description: "Replies with pong" };
-export const run = async (interaction) => interaction.reply("pong");
+import { defineCommand } from "@/lib/helpers/defineCommand";
+
+export const { config, run } = defineCommand(
+  { name: "ping", description: "Replies with pong" },
+  async (interaction) => interaction.reply("pong")
+);
 ```
 
-This keeps every file self-contained and type-correlated — `run`'s parameter type is derived from `config` (e.g. which Discord event you listened to), so there's nothing to keep in sync manually.
+This keeps every file self-contained and perfectly typed.
 
-### Core vs. features
+### Registry + Installer pattern
 
-Code lives in `core/` if it works with zero external infrastructure. It moves to `features/` the moment it needs something running outside the bot process (a database, a Redis instance). This is the rule — not "is it optional."
+`create-djstoolkit` doesn't merge template fragments at runtime. Each feature owns one `installer(targetDir, answers)` function that copies its own files, updates `package.json`, injects its config block, and merges its `docker-compose` service — all in one place. Adding a feature to the CLI means adding one entry to a registry and one installer file.
 
-### Registry + installer pattern
+---
 
-`create-djstoolkit` doesn't merge template fragments at runtime. Each feature owns one `installer(targetDir, answers)` function that copies its own files, updates `package.json`, injects its config block, and merges its `docker-compose` service — all in one place. The CLI just loops over selected features and calls their installers. Adding a feature to the CLI means adding one entry to a registry and one installer file — no changes to the scaffolding engine itself. (Same pattern used by `create-t3-app`'s `installers` map.)
+## 🛠️ Development
 
-## Development
-
-This is a Bun workspace. `template/core`, `template/features/database`, and `template/features/bullmq` are themselves workspace packages — each has its own `package.json`/`tsconfig.json`, so you can open and edit files directly inside them with full type-checking, no need to scaffold a project first to test a change.
+This is a Bun workspace. `template/core` and all features inside `template/features/` are themselves workspace packages. Each has its own `package.json` and `tsconfig.json` so you can open and edit files directly inside them with full type-checking—no need to scaffold a project first to test a change.
 
 ```bash
 bun install
