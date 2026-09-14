@@ -16,10 +16,13 @@ async function ask<T>(fn: () => Promise<T | symbol>): Promise<T> {
 }
 
 export const getAnswers = async () => {
+  const nameArg = process.argv[2];
+
   const name = await ask(() =>
     text({
       message: "What's the name of your project?",
       placeholder: "my-awesome-bot",
+      initialValue: nameArg,
       validate: validateName,
     }),
   );
