@@ -29,92 +29,108 @@ Everything else — commands, events, buttons, dropdowns, modals — is included
 
 ## How each feature actually works
 
-Every handler type follows the same shape: a plain `config` object plus a `run` function, exported from a file with a specific suffix. The loader finds files by that suffix, validates the exports, and wires them up — you never touch a registry or index file yourself.
+Every handler type follows the exact same shape: you use a heavily typed `defineX` helper function to export `config` and `run`. The loader finds files by their suffix, validates the exports, and wires them up — you never touch a registry or index file yourself.
 
 ### Commands — `*.command.ts`
 
 ```ts
 // src/modules/ping/commands/ping.command.ts
-export const config = {
-  name: "ping",
-  description: "Replies with pong",
-};
+import { defineCommand } from "@/lib/helpers/defineCommand";
 
-export const run = async (interaction) => {
-  await interaction.reply("pong");
-};
+export const { config, run } = defineCommand(
+  {
+    name: "ping",
+    description: "Replies with pong",
+  },
+  async (interaction) => {
+    await interaction.reply("pong");
+  }
+);
 ```
 
-Subcommands and groups get their own suffixes (`*.group.ts` for a command group, with subcommands defined alongside it) — no manual `SlashCommandBuilder` boilerplate, no manual registration. Commands are diffed against a local cache, so re-registering with Discord only happens when something actually changed.
+Subcommands and groups get their own suffixes (`*.sub.ts` for a subcommand, combined via `defineCommandGroup` in a `*.group.ts` file) — no manual `SlashCommandBuilder` boilerplate. Commands are diffed against a local cache, so re-registering with Discord API only happens when something actually changed.
 
 ### Events — `*.djs.ts`
 
 ```ts
 // src/modules/logging/events/messageLogger.djs.ts
-export const config = {
-  on: "messageCreate",
-  name: "message-logger",
-  description: "Logs every message",
-};
+import { defineEvent } from "@/lib/helpers/defineEvent";
 
-export const run = async (message) => {
-  console.log(`${message.author.tag}: ${message.content}`);
-};
+export const { config, run } = defineEvent(
+  {
+    on: "messageCreate",
+    name: "message-logger",
+    description: "Logs every message",
+  },
+  async (message) => {
+    console.log(`${message.author.tag}: ${message.content}`);
+  }
+);
 ```
 
 `config.on` is typed against Discord.js's own `ClientEvents` — `run`'s parameters are automatically the correct type for whichever event you listened to.
 
-### Buttons & Dropdowns — `*.button.ts` / `*.dropdown.ts`
+### Components (Buttons, Dropdowns, Modals)
 
 ```ts
 // src/modules/fun/buttons/hello.button.ts
-export const config = {
-  customId: "hello-button",
-  name: "hello",
-  description: "Says hi back",
-};
+import { defineButton } from "@/lib/helpers/defineButton";
 
-export const run = async (interaction) => {
-  await interaction.reply("Hi!");
-};
+export const { config, run } = defineButton(
+  {
+    customId: "HELLO_BTN",
+    name: "hello",
+    description: "Says hi back",
+  },
+  async (interaction, sessionId) => {
+    await interaction.reply(`Hi! Session: ${sessionId}`);
+  }
+);
 ```
 
-Matched to incoming interactions by `customId` — attach one to a message and the handler runs automatically.
+Matched to incoming interactions by `customId`. The framework supports **prefix-routing** out of the box — if you set your button's ID to `HELLO_BTN:123`, the framework automatically routes to `HELLO_BTN` and passes `123` as the `sessionId`!
 
 ### Database events — `*.db.ts` (Database feature)
 
-Every Prisma create/update/delete/upsert emits an event you can listen to, without touching Prisma's own client directly:
+Every Prisma create/update/delete/upsert emits an event you can listen to:
 
 ```ts
 // src/modules/users/events/onUserCreate.db.ts
-export const config = {
-  on: "User.create",
-  name: "welcome-new-user",
-  description: "Runs after a new User row is created",
-};
+import { defineDbEvent } from "@/lib/helpers/defineDbEvent";
 
-export const run = async (user) => {
-  console.log(`New user: ${user.id}`);
-};
+export const { config, run } = defineDbEvent(
+  {
+    model: "user",
+    operation: "create",
+    name: "welcome-new-user",
+    description: "Runs after a new User row is created",
+  },
+  async (args) => {
+    const user = await args.query(args.args);
+    console.log(`New user: ${user.id}`);
+    return user;
+  }
+);
 ```
-
-`config.on` is typed as `` `${ModelName}.${create|update|delete|upsert}` `` — generated from your own `schema.prisma`, so it stays correct as your schema grows.
 
 ### Workers — `*.worker.ts` (BullMQ feature)
 
 ```ts
 // src/modules/reminders/workers/sendReminder.worker.ts
-export const config = {
-  name: "send-reminder",
-  description: "Sends a delayed reminder",
-};
+import { defineWorker } from "@/lib/helpers/defineWorker";
 
-export const run = async (job) => {
-  console.log("Reminder:", job.data);
-};
+export const { config, run } = defineWorker(
+  {
+    name: "send-reminder",
+    description: "Sends a delayed reminder",
+  },
+  async (job) => {
+    console.log("Reminder:", job.data);
+  }
+);
 ```
 
-Enqueue a job from anywhere with `enqueueJob("send-reminder", data)` — the worker with that `name` picks it up.
+Queue a job from anywhere with `enqueueJob("send-reminder", data)`. Types are guaranteed end-to-end via the global `JobRegistry`.
 
 ## What you get, out of the box
 
@@ -148,12 +164,4 @@ Selecting **Database** or **BullMQ** adds their handlers, `.env` variables, and 
 ```bash
 cd my-bot
 bun install                          # if you skipped it during setup
-cp .env.example .env                 # then fill in your Discord app credentials
-bun run services:up                  # if you chose Docker for anything
-bun run prisma:push                  # if you picked Database
-bun run dev
 ```
-
-## License
-
-MIT
