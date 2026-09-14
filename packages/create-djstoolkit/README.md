@@ -100,8 +100,7 @@ import { defineDbEvent } from "@/lib/helpers/defineDbEvent";
 
 export const { config, run } = defineDbEvent(
   {
-    model: "user",
-    operation: "create",
+    on: "User.create",
     name: "welcome-new-user",
     description: "Runs after a new User row is created",
   },
@@ -112,6 +111,8 @@ export const { config, run } = defineDbEvent(
   }
 );
 ```
+
+`config.on` is typed as `` `${ModelName}.${create|update|delete|upsert}` `` — generated from your own `schema.prisma`, so it stays correct as your schema grows.
 
 ### Workers — `*.worker.ts` (BullMQ feature)
 
