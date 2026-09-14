@@ -1,8 +1,10 @@
 import type { Answers } from "@/prompts";
 import { installBullmq } from "./bullmq/installer";
 import { installDatabase } from "./database/installer";
+import { installRelay } from "./relay/installer";
+import { installStore } from "./store/installer";
 
-export type Feature = "db" | "bullmq";
+export type Feature = "db" | "bullmq" | "store" | "relay";
 export type Hosting = (typeof HOSTING_OPTIONS)[number]["value"];
 
 export interface FeatureDefinition {
@@ -27,6 +29,20 @@ export const HOSTING_OPTIONS = [
 ] as const;
 
 export const FEATURES: FeatureDefinition[] = [
+  {
+    id: "store",
+    label: "In-Memory Store",
+    hint: "Share data between commands & components",
+    providers: [],
+    installer: installStore,
+  },
+  {
+    id: "relay",
+    label: "Event Relay (Pub/Sub)",
+    hint: "Type-safe internal event bus for module communication",
+    providers: [],
+    installer: installRelay,
+  },
   {
     id: "db",
     label: "Database",

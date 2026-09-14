@@ -1,0 +1,7 @@
+{
+  "name": "@djstoolkit/feature-relay",
+  "private": true,
+  "peerDependencies": {
+    "@types/bun": "*"
+  }
+}

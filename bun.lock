@@ -10,7 +10,7 @@
     },
     "packages/create-djstoolkit": {
       "name": "create-djstoolkit",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "bin": {
         "create-djstoolkit": "./src/index.ts",
       },
@@ -39,28 +39,49 @@
         "typescript": "^5",
       },
     },
+    "template/examples/example-core": {
+      "name": "@djstoolkit/example-core",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
     "template/features/bullmq": {
-      "name": "@djstoolkit/template-bullmq",
+      "name": "@djstoolkit/feature-bullmq",
       "dependencies": {
         "bullmq": "^5",
-        "discord.js": "^14.27.0",
         "ioredis": "^5",
       },
-      "devDependencies": {
-        "@types/bun": "^1.3.14",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
       },
     },
     "template/features/database": {
-      "name": "@djstoolkit/template-database",
+      "name": "@djstoolkit/feature-database",
       "dependencies": {
-        "@prisma/adapter-pg": "^7.10",
-        "@prisma/client": "^7.10",
-        "discord.js": "^14.27.0",
+        "@prisma/adapter-pg": "^7.10.0",
+        "@prisma/client": "^7.10.0",
         "dotenv": "^17.4.2",
       },
       "devDependencies": {
-        "@types/bun": "^1.3.14",
-        "prisma": "^7.10",
+        "prisma": "^7.10.0",
+      },
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
+    "template/features/relay": {
+      "name": "@djstoolkit/feature-relay",
+      "peerDependencies": {
+        "@types/bun": "*",
+      },
+    },
+    "template/features/store": {
+      "name": "@djstoolkit/feature-store",
+      "peerDependencies": {
+        "@types/bun": "*",
       },
     },
   },
@@ -99,9 +120,15 @@
 
     "@discordjs/ws": ["@discordjs/ws@1.2.3", "", { "dependencies": { "@discordjs/collection": "^2.1.0", "@discordjs/rest": "^2.5.1", "@discordjs/util": "^1.1.0", "@sapphire/async-queue": "^1.5.2", "@types/ws": "^8.5.10", "@vladfrangu/async_event_emitter": "^2.2.4", "discord-api-types": "^0.38.1", "tslib": "^2.6.2", "ws": "^8.17.0" } }, "sha512-wPlQDxEmlDg5IxhJPuxXr3Vy9AjYq5xCvFWGJyD7w7Np8ZGu+Mc+97LCoEc/+AYCo2IDpKioiH0/c/mj5ZR9Uw=="],
 
-    "@djstoolkit/template-bullmq": ["@djstoolkit/template-bullmq@workspace:template/features/bullmq"],
+    "@djstoolkit/example-core": ["@djstoolkit/example-core@workspace:template/examples/example-core"],
 
-    "@djstoolkit/template-database": ["@djstoolkit/template-database@workspace:template/features/database"],
+    "@djstoolkit/feature-bullmq": ["@djstoolkit/feature-bullmq@workspace:template/features/bullmq"],
+
+    "@djstoolkit/feature-database": ["@djstoolkit/feature-database@workspace:template/features/database"],
+
+    "@djstoolkit/feature-relay": ["@djstoolkit/feature-relay@workspace:template/features/relay"],
+
+    "@djstoolkit/feature-store": ["@djstoolkit/feature-store@workspace:template/features/store"],
 
     "@electric-sql/pglite": ["@electric-sql/pglite@0.4.3", "", {}, "sha512-ichuWTgtd4mOM1G4SpyGJa5trT03lWbMypDV0fUXUCXg5hiHqVAz/bZyV68NqmkLB7WcYmj1RMJVSp8HV/v/ZQ=="],
 

@@ -1,6 +1,6 @@
 # create-djstoolkit
 
-Scaffold a fully working [Discord.js](https://discord.js.org) bot in one command — slash commands, events, buttons, and dropdowns included by default, with a database (Prisma) and background jobs (BullMQ) as opt-in features.
+Scaffold a blazing-fast, enterprise-grade [Discord.js](https://discord.js.org) bot in one command. Get slash commands, events, buttons, dropdowns, and modals out-of-the-box, with powerful opt-in features like Prisma, BullMQ, In-Memory State Store, and Pub/Sub Event Relay.
 
 [GitHub](https://github.com/fakejsdev/djstoolkit) · [npm](https://www.npmjs.com/package/create-djstoolkit)
 
@@ -15,14 +15,17 @@ Requires [Bun](https://bun.sh) — the generated project runs on Bun, not Node.
 ## What you're asked
 
 1. **Project name** — used as the directory name and `package.json` name.
-2. **Features** — pick any combination:
+2. **Scaffold Type** — choose between a clean `Barebones` project or a `Full Scaffold` with fully functional example modules.
+3. **Features (À La Carte)** — pick any combination:
    - **Database** — PostgreSQL via Prisma ORM
    - **BullMQ** — background jobs, delayed tasks, scheduled reminders (Redis)
-3. **Hosting** (per selected feature) — Docker Compose (zero setup, recommended) or your own connection string.
-4. **Git** — initialize a repository.
-5. **Install dependencies** — run `bun install` automatically.
+   - **In-Memory Store** — a built-in TTL cache for sharing state securely between commands and components
+   - **Event Relay** — a type-safe internal Pub/Sub event bus to decouple your modules
+4. **Hosting** (per selected feature) — Docker Compose (zero setup, recommended) or your own connection string.
+5. **Git** — initialize a repository.
+6. **Install dependencies** — run `bun install` automatically.
 
-Everything else — commands, events, buttons, dropdowns — is included every time, no prompt needed.
+Everything else — commands, events, buttons, dropdowns, modals — is included in the Core every time, no prompt needed.
 
 ## How each feature actually works
 
