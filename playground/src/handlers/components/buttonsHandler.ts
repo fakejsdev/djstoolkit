@@ -21,6 +21,9 @@ const loadButtonFiles = async () => {
     if (!button.config.customId)
       throw new Error(`Button file ${fileName} is missing customId (must be unique).`);
 
+    if (button.config.customId.includes(":"))
+      throw new Error(`Button file ${fileName} customId cannot contain a colon (:).`);
+
     if (!button.config.name) throw new Error(`Button file ${fileName} is missing name.`);
 
     if (!button.config.description)
@@ -39,7 +42,11 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton() || !interaction.inCachedGuild()) return;
 
-    const [baseId, sessionId] = interaction.customId.split(":");
+    const colonIndex = interaction.customId.indexOf(":");
+    const baseId =
+      colonIndex !== -1 ? interaction.customId.slice(0, colonIndex) : interaction.customId;
+    const sessionId = colonIndex !== -1 ? interaction.customId.slice(colonIndex + 1) : undefined;
+
     if (!baseId) return;
 
     const button = buttons.get(baseId);

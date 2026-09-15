@@ -21,6 +21,9 @@ const loadModalFiles = async () => {
     if (!modal.config.customId)
       throw new Error(`Modal file ${fileName} is missing customId (must be unique).`);
 
+    if (modal.config.customId.includes(":"))
+      throw new Error(`Modal file ${fileName} customId cannot contain a colon (:).`);
+
     if (!modal.config.name) throw new Error(`Modal file ${fileName} is missing name.`);
 
     if (!modal.config.description)
@@ -39,7 +42,11 @@ const attachEventListener = () => {
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isModalSubmit() || !interaction.inCachedGuild()) return;
 
-    const [baseId, sessionId] = interaction.customId.split(":");
+    const colonIndex = interaction.customId.indexOf(":");
+    const baseId =
+      colonIndex !== -1 ? interaction.customId.slice(0, colonIndex) : interaction.customId;
+    const sessionId = colonIndex !== -1 ? interaction.customId.slice(colonIndex + 1) : undefined;
+
     if (!baseId) return;
 
     const modal = modals.get(baseId);

@@ -15,6 +15,7 @@ export type SubCommandRun = (i: SubCommandInteraction) => unknown | Promise<unkn
 
 export const defineSubCommand = (config: SubCommandConfig, run: SubCommandRun) => {
   const { options, ...rest } = config;
+
   return {
     config: {
       ...rest,

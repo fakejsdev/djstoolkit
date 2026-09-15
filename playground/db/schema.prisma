@@ -6,3 +6,8 @@ generator client {
     provider = "prisma-client"
     output   = "../src/lib/prisma/generated"
 }
+
+model User {
+    id   Int    @id @default(autoincrement())
+    name String @unique
+}
