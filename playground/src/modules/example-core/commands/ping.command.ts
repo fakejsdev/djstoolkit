@@ -43,7 +43,7 @@ export const { config, run } = defineCommand(
 
     return await interaction.reply({
       content: `Pong! WebSocket Ping: ${wsPing}`,
-      components: [dropdown, button],
+      components: [button, dropdown],
     });
   },
 );
