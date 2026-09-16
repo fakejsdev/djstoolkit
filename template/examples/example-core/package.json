@@ -1,8 +1,0 @@
-{
-  "name": "@djstoolkit/example-core",
-  "private": true,
-  "peerDependencies": {
-    "discord.js": "*",
-    "@types/bun": "*"
-  }
-}
