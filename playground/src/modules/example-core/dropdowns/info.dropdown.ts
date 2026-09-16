@@ -14,19 +14,19 @@ export const { config, run } = defineDropdown(
       case "GUILD":
         await interaction.reply({
           content: `Guild Name: **${interaction.guild?.name}** (ID: ${interaction.guild?.id})`,
-          ephemeral: true,
+          flags: ["Ephemeral"],
         });
         break;
       case "SELF":
         await interaction.reply({
           content: `Your Tag: **${interaction.user.tag}** (ID: ${interaction.user.id})`,
-          ephemeral: true,
+          flags: ["Ephemeral"],
         });
         break;
       default:
         await interaction.reply({
           content: "Unknown option selected.",
-          ephemeral: true,
+          flags: ["Ephemeral"],
         });
     }
   },
