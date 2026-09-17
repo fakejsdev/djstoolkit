@@ -1,2 +1,7 @@
-// biome-ignore lint/suspicious/noEmptyInterface: intentional registry placeholder
-export interface RelayRegistry {}
+export interface RelayRegistry {
+  "system:announcement": {
+    title: string;
+    message: string;
+    author: string;
+  };
+}
