@@ -21,7 +21,7 @@ export const { config, run } = defineButton(
     if (!sessionId) {
       return await interaction.reply({
         content: "Error: Missing session ID.",
-        ephemeral: true,
+        flags: ["Ephemeral"],
       });
     }
 
