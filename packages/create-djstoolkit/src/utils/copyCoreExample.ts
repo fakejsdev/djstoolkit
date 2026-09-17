@@ -3,13 +3,13 @@ import { join } from "node:path";
 import { TEMPLATE_DIR } from "./copyTemplate";
 
 export const copyCoreExample = (targetDir: string) => {
-  const exampleDir = join(TEMPLATE_DIR, "examples", "example-core");
-  if (!existsSync(exampleDir)) return;
+  const templateDir = join(TEMPLATE_DIR, "examples", "example-core");
+  if (!existsSync(templateDir)) return;
 
-  const exampleSrcDir = join(exampleDir, "src");
-  const sourceDir = existsSync(exampleSrcDir) ? exampleSrcDir : exampleDir;
+  const exampleSrcDir = join(templateDir, "src");
+  const sourceDir = existsSync(exampleSrcDir) ? exampleSrcDir : templateDir;
 
-  cpSync(sourceDir, join(targetDir, "src", "modules", "example-core"), {
+  cpSync(sourceDir, join(targetDir, "src"), {
     recursive: true,
   });
 };
