@@ -9,7 +9,7 @@ type RelayDefinition = ReturnType<typeof defineRelay>;
 let registeredCount = 0;
 
 const loadRelayFiles = async () => {
-  const glob = new Bun.Glob(`${config.modulesDir}/*/relays/**/*.relay.ts`);
+  const glob = new Bun.Glob(`${config.modulesDir}/*/events/**/*.relay.ts`);
 
   for await (const file of glob.scan(".")) {
     const fileName = path.basename(file, ".relay.ts");
