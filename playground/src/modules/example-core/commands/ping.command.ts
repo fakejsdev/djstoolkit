@@ -10,47 +10,52 @@ import {
 } from "discord.js";
 import { client } from "@/lib/discord";
 import { defineCommand } from "@/lib/helpers/defineCommand";
-import { BUTTONS, DROPDOWNS } from "../types";
+
+/*
+  ping.command.ts — Core command showcase
+  Demonstrates Components V2 (ContainerBuilder, TextDisplay, Separators),
+  Button components, Select Menus, and status diagnostics.
+*/
 
 export const { config, run } = defineCommand(
   {
     name: "ping",
-    description: "Pong! Check current ping & public info",
+    description: "Check current bot latency and test interactive components",
   },
   async (interaction) => {
-    const button = new ActionRowBuilder<ButtonBuilder>({
-      components: [
-        new ButtonBuilder()
-          .setCustomId(BUTTONS.REFRESH_PING)
-          .setLabel("Refresh a Ping")
-          .setStyle(ButtonStyle.Primary),
-      ],
-    });
+    const buttons = new ActionRowBuilder<ButtonBuilder>().addComponents(
+      new ButtonBuilder()
+        .setCustomId("REFRESH_PING")
+        .setLabel("Refresh Ping")
+        .setStyle(ButtonStyle.Primary),
+      new ButtonBuilder()
+        .setCustomId("REPORT_BUG_MODAL")
+        .setLabel("Report Bug")
+        .setStyle(ButtonStyle.Secondary),
+    );
 
-    const dropdown = new ActionRowBuilder<StringSelectMenuBuilder>({
-      components: [
-        new StringSelectMenuBuilder()
-          .setCustomId(DROPDOWNS.INFO_DROPDOWN)
-          .setPlaceholder("Choose an Option")
-          .addOptions([
-            {
-              label: "This Guild Info",
-              value: "GUILD",
-              description: "Get info about this guild.",
-            },
-            {
-              label: "Self Info",
-              value: "SELF",
-              description: "Get info about your self (your account)",
-            },
-          ]),
-      ],
-    });
+    const dropdown = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(
+      new StringSelectMenuBuilder()
+        .setCustomId("INFO_DROPDOWN")
+        .setPlaceholder("Select an info option...")
+        .addOptions([
+          {
+            label: "This Guild Info",
+            value: "GUILD",
+            description: "Get information about the current guild",
+          },
+          {
+            label: "Self Info",
+            value: "SELF",
+            description: "Get information about your account",
+          },
+        ]),
+    );
 
     const container = new ContainerBuilder()
       .addTextDisplayComponents([
         new TextDisplayBuilder({
-          content: "## `🏓` Pong!\n> Click button & dropdown to test handlers",
+          content: "## `🏓` Pong!\n> Welcome to **djstoolkit** interactive status check.",
         }),
       ])
       .addSeparatorComponents([
@@ -61,10 +66,16 @@ export const { config, run } = defineCommand(
       ])
       .addTextDisplayComponents([
         new TextDisplayBuilder({
-          content: `### Websocket Ping: ${client.ws.ping}ms\n> Refresh ping using button below`,
+          content: `### \`📊\` Diagnostics\n- **WebSocket Latency:** \`${client.ws.ping}ms\`\n- **Status:** \`Operational\``,
         }),
       ])
-      .addActionRowComponents([button])
+      .addSeparatorComponents([
+        new SeparatorBuilder({
+          divider: false,
+          spacing: SeparatorSpacingSize.Small,
+        }),
+      ])
+      .addActionRowComponents([buttons])
       .addSeparatorComponents([
         new SeparatorBuilder({
           divider: true,
@@ -73,7 +84,13 @@ export const { config, run } = defineCommand(
       ])
       .addTextDisplayComponents([
         new TextDisplayBuilder({
-          content: `### Choose what you want to know\n> Select option to know more about your self/this guild`,
+          content: "### `ℹ️` Public Info\n> Select an option below to view server or user details:",
+        }),
+      ])
+      .addSeparatorComponents([
+        new SeparatorBuilder({
+          divider: false,
+          spacing: SeparatorSpacingSize.Small,
         }),
       ])
       .addActionRowComponents([dropdown]);
