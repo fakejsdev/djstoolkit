@@ -3,7 +3,7 @@ import { FEATURES } from "@/features/registry";
 import type { Answers } from "@/prompts";
 import { gitInit } from "@/tasks/gitInit";
 import { installDeps } from "@/tasks/installDeps";
-import { copyExamples } from "@/utils/copyExamples";
+import { copyCoreExample } from "@/utils/copyCoreExample";
 import { copyTemplate } from "@/utils/copyTemplate";
 import { updatePackageJson } from "@/utils/updatePackageJson";
 
@@ -13,16 +13,20 @@ export const scaffold = async (answers: Answers) => {
   log.step("Copying Core Features...");
   copyTemplate(targetDir);
 
-  if (answers.withExamples) {
-    log.step("Copying example modules...");
-    copyExamples(targetDir, answers.features);
-  }
-
   await updatePackageJson(targetDir, { name: answers.name });
 
   for (const feature of FEATURES.filter((f) => answers.features.includes(f.id))) {
     log.step(`Installing ${feature.label}...`);
     await feature.installer(targetDir, answers);
+  }
+
+  if (answers.withExamples) {
+    log.step("Copying example modules...");
+    copyCoreExample(targetDir);
+
+    for (const feature of FEATURES.filter((f) => answers.features.includes(f.id))) {
+      await feature.templateCopier?.(targetDir);
+    }
   }
 
   if (answers.dbHosting === "docker" || answers.bullmqHosting === "docker") {
