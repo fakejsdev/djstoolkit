@@ -1,30 +1,32 @@
 import { defineDropdown } from "@/lib/helpers/defineDropdown";
-import { DROPDOWNS } from "../types";
+
+/*
+  info.dropdown.ts — Select Menu component handler example
+  Handles INFO_DROPDOWN customId and replies with guild or user details based on choice.
+*/
 
 export const { config, run } = defineDropdown(
   {
-    customId: DROPDOWNS.INFO_DROPDOWN,
-    name: "Info Dropdown",
-    description: "Sends info depending on selected op.",
+    customId: "INFO_DROPDOWN",
+    name: "Info Select Menu Handler",
+    description: "Responds with guild or user details when an option is selected",
   },
   async (interaction) => {
-    const [value] = interaction.values;
+    const [selectedValue] = interaction.values;
 
-    switch (value) {
+    switch (selectedValue) {
       case "GUILD":
-        await interaction.reply({
-          content: `Guild Name: **${interaction.guild?.name}** (ID: ${interaction.guild?.id})`,
+        return await interaction.reply({
+          content: `### \`🏰\` Guild Info\n- **Name:** \`${interaction.guild?.name ?? "N/A"}\`\n- **Guild ID:** \`${interaction.guild?.id ?? "N/A"}\`\n- **Member Count:** \`${interaction.guild?.memberCount ?? "N/A"}\``,
           flags: ["Ephemeral"],
         });
-        break;
       case "SELF":
-        await interaction.reply({
-          content: `Your Tag: **${interaction.user.tag}** (ID: ${interaction.user.id})`,
+        return await interaction.reply({
+          content: `### \`👤\` User Info\n- **Tag:** \`${interaction.user.tag}\`\n- **User ID:** \`${interaction.user.id}\`\n- **Created:** <t:${Math.floor(interaction.user.createdTimestamp / 1000)}:R>`,
           flags: ["Ephemeral"],
         });
-        break;
       default:
-        await interaction.reply({
+        return await interaction.reply({
           content: "Unknown option selected.",
           flags: ["Ephemeral"],
         });
