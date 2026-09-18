@@ -21,6 +21,11 @@ const loadRelayFiles = async () => {
     if (!relayFile.config.on)
       throw new Error(`Relay file ${fileName} is missing 'on' (event name).`);
 
+    if (!relayFile.config.name) throw new Error(`Relay file ${fileName} is missing name.`);
+
+    if (!relayFile.config.description)
+      throw new Error(`Relay file ${fileName} is missing description.`);
+
     relay.on(relayFile.config.on, async (payload) => {
       try {
         await relayFile.run(payload);
