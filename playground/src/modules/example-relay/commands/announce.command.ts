@@ -3,7 +3,7 @@ import { relay } from "@/lib/relay";
 
 /*
   defineCommand(config, run)
-  For full command docs, see example-core/commands/basic.command.ts
+  For full command docs, see example-core/commands/ping.command.ts
 
   announce.command.ts — Relay feature live example
   Demonstrates emitting an internal Pub/Sub event via relay.send().

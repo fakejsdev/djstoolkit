@@ -1,4 +1,3 @@
-import type { GuildTextBasedChannel } from "discord.js";
 import { client } from "@/lib/discord";
 import { defineWorker } from "@/lib/helpers/defineWorker";
 
@@ -25,11 +24,11 @@ export const { config, run } = defineWorker(
   async (job) => {
     const { channelId, reminder } = job.data;
 
-    const channel = (client.channels.cache.get(channelId) ??
-      (await client.channels.fetch(channelId))) as GuildTextBasedChannel | null;
+    const channel =
+      client.channels.cache.get(channelId) ?? (await client.channels.fetch(channelId));
 
-    if (!channel) return;
+    if (!channel?.isTextBased() || !("send" in channel)) return;
 
-    await channel.send(`\`⏰\` **Reminder:** ${reminder}`);
+    await channel.send(`⏰ **Reminder:** ${reminder}`);
   },
 );

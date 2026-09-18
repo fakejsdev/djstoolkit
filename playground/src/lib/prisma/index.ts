@@ -1,8 +1,8 @@
 import EventEmitter from "node:events";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { type Prisma, PrismaClient } from "./generated/client";
+import { type Prisma, PrismaClient } from "@/lib/prisma/generated/client";
 
-type CrudOperation = "create" | "update" | "delete" | "upsert";
+type CrudOperation = "Create" | "Update" | "Delete" | "Upsert";
 
 export type DbEventMap = {
   [K in `${Prisma.ModelName}.${CrudOperation}`]: [unknown];
@@ -19,8 +19,10 @@ export const prisma = base.$extends({
       async $allOperations({ model, operation, args, query }) {
         const result = await query(args);
 
+        const capitalizedOp = operation.charAt(0).toUpperCase() + operation.slice(1);
+
         if (["create", "update", "delete", "upsert"].includes(operation)) {
-          dbEmitter.emit(`${model}.${operation}` as keyof DbEventMap, result);
+          dbEmitter.emit(`${model}.${capitalizedOp}` as keyof DbEventMap, result);
         }
 
         return result;
