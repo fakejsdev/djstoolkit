@@ -1,6 +1,10 @@
 {
   "name": "djstoolkit",
   "private": true,
+  "scripts": {
+    "test:unit": "bun test",
+    "test:typecheck": "bash scripts/typecheck.test.sh"
+  },
   "workspaces": [
     "packages/*",
     "template/core",
