@@ -41,7 +41,7 @@ const attachWorker = () => {
         throw new Error(`No worker registered for job name: '${job.name}'`);
       }
 
-      return definition.run(job);
+      return definition.run(job as Parameters<typeof definition.run>[0]);
     },
     {
       connection: {

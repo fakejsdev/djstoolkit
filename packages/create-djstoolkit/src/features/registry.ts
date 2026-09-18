@@ -1,8 +1,12 @@
 import type { Answers } from "@/prompts";
 import { installBullmq } from "./bullmq/installer";
+import { copyBullmqTemplate } from "./bullmq/template";
 import { installDatabase } from "./database/installer";
+import { copyDbTemplate } from "./database/template";
 import { installRelay } from "./relay/installer";
+import { copyRelayTemplate } from "./relay/template";
 import { installStore } from "./store/installer";
+import { copyStoreTemplate } from "./store/template";
 
 export type Feature = "db" | "bullmq" | "store" | "relay";
 export type Hosting = (typeof HOSTING_OPTIONS)[number]["value"];
@@ -13,6 +17,7 @@ export interface FeatureDefinition {
   hint: string;
   providers: { id: string; label: string; needsHosting?: boolean }[];
   installer: (targetDir: string, answers: Answers) => Promise<unknown>;
+  templateCopier?: (targetDir: string) => Promise<unknown> | unknown;
 }
 
 export const HOSTING_OPTIONS = [
@@ -35,6 +40,7 @@ export const FEATURES: FeatureDefinition[] = [
     hint: "Share data between commands & components",
     providers: [],
     installer: installStore,
+    templateCopier: copyStoreTemplate,
   },
   {
     id: "relay",
@@ -42,6 +48,7 @@ export const FEATURES: FeatureDefinition[] = [
     hint: "Type-safe internal event bus for module communication",
     providers: [],
     installer: installRelay,
+    templateCopier: copyRelayTemplate,
   },
   {
     id: "db",
@@ -49,6 +56,7 @@ export const FEATURES: FeatureDefinition[] = [
     hint: "Supported DBs via Prisma ORM",
     providers: [{ id: "postgresql", label: "PostgreSQL", needsHosting: true }],
     installer: installDatabase,
+    templateCopier: copyDbTemplate,
   },
   {
     id: "bullmq",
@@ -56,5 +64,6 @@ export const FEATURES: FeatureDefinition[] = [
     hint: "Background jobs, delayed tasks, scheduled reminders",
     providers: [{ id: "redis", label: "Redis", needsHosting: true }],
     installer: installBullmq,
+    templateCopier: copyBullmqTemplate,
   },
 ];

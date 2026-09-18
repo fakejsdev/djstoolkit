@@ -17,6 +17,10 @@ export const config = defineConfig({
       name: "with Djs Toolkit",
     },
   },
+
+  onError: (error, ctx) => {
+    console.error(`[${ctx.source}] ${ctx.name}:`, error);
+  },
   bullmq: {
     hostname: process.env.REDIS_HOSTNAME ?? "localhost",
     port: Number(process.env.REDIS_PORT ?? 6379),
