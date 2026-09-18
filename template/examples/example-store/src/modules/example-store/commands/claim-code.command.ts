@@ -5,7 +5,7 @@ import { setStore } from "@/lib/store";
 
 /*
   defineCommand(config, run)
-  For full command docs, see example-core/commands/basic.command.ts
+  For full command docs, see example-core/commands/ping.command.ts
 
   claimCode.command.ts — In-Memory Store feature live example
   Demonstrates storing temporary state with TTL and attaching a session token to a button.
