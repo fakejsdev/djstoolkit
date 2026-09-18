@@ -23,10 +23,11 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
 
-      - name: Setup Node (npm CLI dla OIDC)
+      - name: Setup Node (npm CLI for OIDC)
         uses: actions/setup-node@v4
         with:
           node-version: 24
+          registry-url: 'https://registry.npmjs.org' 
 
       - name: Upgrade npm
         run: |
@@ -42,5 +43,5 @@ jobs:
         run: bun install
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: npm publish --provenance --access public
         working-directory: packages/create-djstoolkit
