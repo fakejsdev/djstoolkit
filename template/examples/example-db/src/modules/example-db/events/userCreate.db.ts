@@ -19,7 +19,7 @@ import type { User } from "@/lib/prisma/generated/client";
 
 export const { config, run } = defineDbEvent(
   {
-    on: "User.upsert",
+    on: "User.Upsert",
     name: "User Create Listener",
     description: "Triggers after a new User record is created in the database",
   },
