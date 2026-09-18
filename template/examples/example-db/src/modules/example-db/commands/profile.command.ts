@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 /*
   defineCommand(config, run)
-  For full command docs, see example-core/commands/basic.command.ts
+  For full command docs, see example-core/commands/ping.command.ts
 
   profile.command.ts — Database feature live example
   Demonstrates querying and upserting user data with Prisma ORM.
