@@ -6,5 +6,5 @@
       "@config": ["../../core/djs.config.ts"]
     }
   },
-  "include": ["src/**/*", "db.d.ts"]
+  "include": ["src/**/*", "db.d.ts", "../../features/database/prisma-dev.d.ts"]
 }
