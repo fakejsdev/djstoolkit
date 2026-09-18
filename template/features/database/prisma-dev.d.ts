@@ -1,4 +1,4 @@
-// This code is never shipped to the user/final development
+// Development mock for Database feature infrastructure
 declare module "@/lib/prisma/generated/client" {
   export namespace Prisma {
     type ModelName = string;
@@ -21,7 +21,7 @@ declare module "@/lib/prisma/generated/client" {
           }) => Promise<unknown>;
         };
       };
-      // biome-ignore lint: Expected to use any, to prevent errors withing examples
+      // biome-ignore lint/suspicious/noExplicitAny: Expected to use any to prevent errors in examples
     }): any;
   }
 }
