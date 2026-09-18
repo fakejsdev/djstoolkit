@@ -3,7 +3,7 @@ import { takeStore } from "@/lib/store";
 
 /*
   defineButton(config, run)
-  For full button docs, see example-core/buttons/demo.button.ts
+  For full button docs, see example-core/buttons/refresh.button.ts
 
   claimCode.button.ts — In-Memory Store button handler
   Demonstrates retrieving and deleting state atomically using takeStore.
@@ -21,7 +21,7 @@ export const { config, run } = defineButton(
     if (!sessionId) {
       return await interaction.reply({
         content: "Error: Missing session ID.",
-        ephemeral: true,
+        flags: ["Ephemeral"],
       });
     }
 

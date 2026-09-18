@@ -1,6 +1,6 @@
 import { config } from "@config";
 import { type JobsOptions, Queue } from "bullmq";
-import type { JobRegistry } from "./jobs";
+import type { JobRegistry } from "@/lib/bullmq/jobs";
 
 export const queue = new Queue(config.bullmq?.queueName ?? "DJSTOOLKIT_WORK_QUEUE", {
   connection: {
