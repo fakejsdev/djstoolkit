@@ -10,7 +10,7 @@
     },
     "packages/create-djstoolkit": {
       "name": "create-djstoolkit",
-      "version": "0.3.0",
+      "version": "0.3.4",
       "bin": {
         "create-djstoolkit": "./src/index.ts",
       },
@@ -39,8 +39,36 @@
         "typescript": "^5",
       },
     },
+    "template/examples/example-bullmq": {
+      "name": "@djstoolkit/example-bullmq",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
     "template/examples/example-core": {
       "name": "@djstoolkit/example-core",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
+    "template/examples/example-db": {
+      "name": "@djstoolkit/example-db",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
+    "template/examples/example-relay": {
+      "name": "@djstoolkit/example-relay",
+      "peerDependencies": {
+        "@types/bun": "*",
+        "discord.js": "*",
+      },
+    },
+    "template/examples/example-store": {
+      "name": "@djstoolkit/example-store",
       "peerDependencies": {
         "@types/bun": "*",
         "discord.js": "*",
@@ -120,7 +148,15 @@
 
     "@discordjs/ws": ["@discordjs/ws@1.2.3", "", { "dependencies": { "@discordjs/collection": "^2.1.0", "@discordjs/rest": "^2.5.1", "@discordjs/util": "^1.1.0", "@sapphire/async-queue": "^1.5.2", "@types/ws": "^8.5.10", "@vladfrangu/async_event_emitter": "^2.2.4", "discord-api-types": "^0.38.1", "tslib": "^2.6.2", "ws": "^8.17.0" } }, "sha512-wPlQDxEmlDg5IxhJPuxXr3Vy9AjYq5xCvFWGJyD7w7Np8ZGu+Mc+97LCoEc/+AYCo2IDpKioiH0/c/mj5ZR9Uw=="],
 
+    "@djstoolkit/example-bullmq": ["@djstoolkit/example-bullmq@workspace:template/examples/example-bullmq"],
+
     "@djstoolkit/example-core": ["@djstoolkit/example-core@workspace:template/examples/example-core"],
+
+    "@djstoolkit/example-db": ["@djstoolkit/example-db@workspace:template/examples/example-db"],
+
+    "@djstoolkit/example-relay": ["@djstoolkit/example-relay@workspace:template/examples/example-relay"],
+
+    "@djstoolkit/example-store": ["@djstoolkit/example-store@workspace:template/examples/example-store"],
 
     "@djstoolkit/feature-bullmq": ["@djstoolkit/feature-bullmq@workspace:template/features/bullmq"],
 
