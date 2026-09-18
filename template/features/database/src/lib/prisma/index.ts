@@ -1,6 +1,6 @@
 import EventEmitter from "node:events";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { type Prisma, PrismaClient } from "./generated/client";
+import { type Prisma, PrismaClient } from "@/lib/prisma/generated/client";
 
 type CrudOperation = "create" | "update" | "delete" | "upsert";
 
