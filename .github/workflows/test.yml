@@ -18,4 +18,6 @@ jobs:
       - name: Lint (Biome)
         run: bunx biome ci .
       - name: Run tests
-        run: bun test
+        run: bun run test:bun
+      - name: Run typecheck
+        run: bun run test:typecheck
