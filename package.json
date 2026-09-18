@@ -1,6 +1,7 @@
 {
   "name": "djstoolkit",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "test:unit": "bun test",
     "test:typecheck": "bash scripts/typecheck.test.sh"
