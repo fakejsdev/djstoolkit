@@ -1,5 +1,5 @@
 import { EventEmitter } from "node:events";
-import type { RelayRegistry } from "./events";
+import type { RelayRegistry } from "@/lib/relay/events";
 
 const emitter = new EventEmitter();
 

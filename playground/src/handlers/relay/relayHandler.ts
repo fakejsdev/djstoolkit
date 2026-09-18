@@ -31,6 +31,7 @@ const loadRelayFiles = async () => {
         await relayFile.run(payload);
       } catch (error) {
         Console.Error(`[Relay] Error in ${fileName}:`, error);
+        config.onError?.(error as Error, { source: "relay", name: fileName });
       }
     });
 

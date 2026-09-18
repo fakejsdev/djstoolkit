@@ -1,4 +1,4 @@
-import type { RelayRegistry } from "../relay/events";
+import type { RelayRegistry } from "@/lib/relay/events";
 
 export interface RelayConfig<K extends keyof RelayRegistry> {
   on: K;

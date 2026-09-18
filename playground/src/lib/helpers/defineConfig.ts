@@ -2,7 +2,7 @@ import type { ActivityType, GatewayIntentBits, Partials, PresenceStatusData } fr
 
 export interface ErrorContext {
   name: string;
-  source: "command" | "event" | "worker" | "component" | "gateway" | "dbEvent";
+  source: "command" | "event" | "worker" | "component" | "gateway" | "dbEvent" | "relay";
 }
 
 export interface DjsConfig {
