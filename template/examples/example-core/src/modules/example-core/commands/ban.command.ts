@@ -5,7 +5,7 @@ import { defineCommand } from "@/lib/helpers/defineCommand";
 /*
   ban.command.ts — Command with permissions & prefix-routed confirmation button
   Requires Administrator permission and passes target user ID in button customId.
-  The button handler is located at: example-core/buttons/banConfirm.button.ts
+  The button handler is located at: example-core/buttons/ban-confirm.button.ts
 */
 
 export const { config, run } = defineCommand(
