@@ -9,6 +9,11 @@ export type ButtonConfig = {
 };
 export type ButtonRun = (i: ButtonInteraction, sessionId?: string) => unknown | Promise<unknown>;
 
+export interface ButtonDefinition {
+  config: ButtonConfig;
+  run: ButtonRun;
+}
+
 /**
  * Defines a type-safe button component interaction listener.
  *
@@ -30,4 +35,7 @@ export type ButtonRun = (i: ButtonInteraction, sessionId?: string) => unknown | 
  * );
  * ```
  */
-export const defineButton = (config: ButtonConfig, run: ButtonRun) => ({ config, run });
+export const defineButton = (config: ButtonConfig, run: ButtonRun): ButtonDefinition => ({
+  config,
+  run,
+});
