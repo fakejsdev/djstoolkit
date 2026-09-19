@@ -1,6 +1,6 @@
 import type { SlashCommandBuilder } from "discord.js";
 import { type PermissionFlag, resolvePermissions } from "@/lib/discord/permissions";
-import type { defineSubCommand } from "./defineSubCommand";
+import type { SubCommandDefinition } from "./defineSubCommand";
 
 type CommandGroupJSON = ReturnType<SlashCommandBuilder["toJSON"]>;
 
@@ -8,12 +8,13 @@ export interface CommandGroupConfig extends Omit<CommandGroupJSON, "default_memb
   permissions?: PermissionFlag[];
 }
 
-export type CommandGroupSubCommands = Array<ReturnType<typeof defineSubCommand>>;
+export type CommandGroupSubCommands = SubCommandDefinition[];
 
 export interface CommandGroupDefinition {
   config: CommandGroupJSON;
   subCommands: CommandGroupSubCommands;
 }
+
 /**
  * Defines a slash command group aggregating multiple subcommands under a parent command (e.g. `/math add`).
  *
