@@ -34,5 +34,5 @@ export const queue = new Queue(config.bullmq?.queueName ?? "DJSTOOLKIT_WORK_QUEU
 export const enqueueJob = async <K extends keyof JobRegistry>(
   name: K,
   data: JobRegistry[K],
-  opts: JobsOptions,
+  opts?: JobsOptions,
 ): EnqueueJobReturnType<K> => await queue.add(name, data, opts);
