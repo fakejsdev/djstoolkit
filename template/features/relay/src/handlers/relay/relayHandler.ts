@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
-import type { defineRelay } from "@/lib/helpers/defineRelay";
+import type { RelayDefinition } from "@/lib/helpers/defineRelay";
 import { Console } from "@/lib/logger";
 import { relay } from "@/lib/relay";
-
-type RelayDefinition = ReturnType<typeof defineRelay>;
 
 let registeredCount = 0;
 
