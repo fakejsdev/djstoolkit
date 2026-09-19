@@ -1,6 +1,10 @@
 import { config } from "@config";
-import { type JobsOptions, Queue } from "bullmq";
+import { type Job, type JobsOptions, Queue } from "bullmq";
 import type { JobRegistry } from "@/lib/bullmq/jobs";
+
+type EnqueueJobReturnType<K extends keyof JobRegistry> = Promise<
+  Job<JobRegistry[K], unknown, string>
+>;
 
 export const queue = new Queue(config.bullmq?.queueName ?? "DJSTOOLKIT_WORK_QUEUE", {
   connection: {
@@ -31,4 +35,4 @@ export const enqueueJob = async <K extends keyof JobRegistry>(
   name: K,
   data: JobRegistry[K],
   opts: JobsOptions,
-) => await queue.add(name, data, opts);
+): EnqueueJobReturnType<K> => await queue.add(name, data, opts);
