@@ -7,10 +7,16 @@ export type DropdownConfig = {
   name: string;
   description: string;
 };
+
 export type DropdownRun = (
   i: DropdownInteraction,
   sessionId?: string,
 ) => unknown | Promise<unknown>;
+
+export interface DropdownDefinition {
+  config: DropdownConfig;
+  run: DropdownRun;
+}
 
 /**
  * Defines a type-safe string select menu (dropdown) component interaction listener.
@@ -34,4 +40,7 @@ export type DropdownRun = (
  * );
  * ```
  */
-export const defineDropdown = (config: DropdownConfig, run: DropdownRun) => ({ config, run });
+export const defineDropdown = (config: DropdownConfig, run: DropdownRun): DropdownDefinition => ({
+  config,
+  run,
+});
