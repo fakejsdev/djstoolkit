@@ -13,6 +13,11 @@ export interface SubCommandConfig extends Omit<SubCommandJSON, "type" | "options
 }
 export type SubCommandRun = (i: SubCommandInteraction) => unknown | Promise<unknown>;
 
+export interface SubCommandDefinition {
+  config: SubCommandJSON;
+  run: SubCommandRun;
+}
+
 /**
  * Defines a type-safe subcommand intended to be included inside a `defineCommandGroup`.
  *
@@ -42,7 +47,10 @@ export type SubCommandRun = (i: SubCommandInteraction) => unknown | Promise<unkn
  * );
  * ```
  */
-export const defineSubCommand = (config: SubCommandConfig, run: SubCommandRun) => {
+export const defineSubCommand = (
+  config: SubCommandConfig,
+  run: SubCommandRun,
+): SubCommandDefinition => {
   const { options, ...rest } = config;
 
   return {
