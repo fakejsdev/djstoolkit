@@ -5,10 +5,14 @@ export interface DbEventConfig<T extends keyof DbEventMap = keyof DbEventMap> {
   name: string;
   description: string;
 }
-
 export type DbEventRun<T extends keyof DbEventMap> = (
   ...args: DbEventMap[T]
 ) => unknown | Promise<unknown>;
+
+export interface DbEventDefinition<T extends keyof DbEventMap = keyof DbEventMap> {
+  config: DbEventConfig<T>;
+  run: DbEventRun<T>;
+}
 
 /**
  * Defines a type-safe Prisma database event listener.
@@ -35,4 +39,4 @@ export type DbEventRun<T extends keyof DbEventMap> = (
 export const defineDbEvent = <T extends keyof DbEventMap>(
   config: DbEventConfig<T>,
   run: DbEventRun<T>,
-) => ({ config, run });
+): DbEventDefinition<T> => ({ config, run });
