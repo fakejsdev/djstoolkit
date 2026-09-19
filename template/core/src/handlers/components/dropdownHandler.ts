@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
-import type { defineDropdown } from "@/lib/helpers/defineDropdown";
+import type { DropdownDefinition } from "@/lib/helpers/defineDropdown";
 import { Console } from "@/lib/logger";
-
-type DropdownDefinition = ReturnType<typeof defineDropdown>;
 
 const dropdowns = new Map<string, DropdownDefinition>();
 

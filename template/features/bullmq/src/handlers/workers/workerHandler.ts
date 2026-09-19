@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
 import { Worker } from "bullmq";
-import type { defineWorker } from "@/lib/helpers/defineWorker";
+import type { WorkerDefinition } from "@/lib/helpers/defineWorker";
 import { Console } from "@/lib/logger";
-
-type WorkerDefinition = ReturnType<typeof defineWorker>;
 
 const workers = new Map<string, WorkerDefinition>();
 

@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
-import type { defineModal } from "@/lib/helpers/defineModal";
+import type { ModalDefinition } from "@/lib/helpers/defineModal";
 import { Console } from "@/lib/logger";
-
-type ModalDefinition = ReturnType<typeof defineModal>;
 
 const modals = new Map<string, ModalDefinition>();
 

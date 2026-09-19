@@ -11,7 +11,33 @@ export interface CommandConfig extends Omit<CommandJSON, "default_member_permiss
 }
 export type CommandRun = (i: CommandInteraction) => unknown | Promise<unknown>;
 
-export const defineCommand = (config: CommandConfig, run: CommandRun) => {
+export interface CommandDefinition {
+  config: CommandJSON;
+  run: CommandRun;
+}
+
+/**
+ * Defines a type-safe Discord slash command with automatic option & permission resolution.
+ *
+ * @param config - The command configuration (name, description, options, permissions)
+ * @param run - The handler function executed when the slash command is invoked in Discord
+ * @returns An object containing resolved `config` and `run` exported for the command loader
+ *
+ * @example
+ * ```ts
+ * export const { config, run } = defineCommand(
+ *   {
+ *     name: "ping",
+ *     description: "Check bot latency and websocket status",
+ *     permissions: ["Administrator"],
+ *   },
+ *   async (interaction) => {
+ *     await interaction.reply(`Pong! Latency: ${interaction.client.ws.ping}ms`);
+ *   },
+ * );
+ * ```
+ */
+export const defineCommand = (config: CommandConfig, run: CommandRun): CommandDefinition => {
   const { permissions, options, ...rest } = config;
 
   return {

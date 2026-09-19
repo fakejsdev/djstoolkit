@@ -33,18 +33,36 @@ const formatMessage = (args: unknown[], color: string, level: string, icon: stri
   return `${color}${icon} ${level.padEnd(6)}${colors.reset} ${colors.gray}${timestamp}${colors.reset} ${colors.gray}│${colors.reset} ${message}`;
 };
 
+/**
+ * Logs formatted info messages to stdout with timestamp and blue log indicator.
+ *
+ * @param args - Items or messages to log
+ */
 const log = (...args: unknown[]) => {
   console.log(formatMessage(args, colors.brightBlue, "LOG", icons.log));
 };
 
+/**
+ * Logs formatted warning messages to stderr with timestamp and yellow warning indicator.
+ *
+ * @param args - Items or warning messages to log
+ */
 const warn = (...args: unknown[]) => {
   console.warn(formatMessage(args, colors.brightYellow, "WARN", icons.warning));
 };
 
+/**
+ * Logs formatted error messages to stderr with timestamp and red error indicator.
+ *
+ * @param args - Items or error objects to log
+ */
 const error = (...args: unknown[]) => {
   console.error(formatMessage(args, colors.brightRed, "ERROR", icons.error));
 };
 
+/**
+ * Custom formatted console logger with timestamps, colorized log levels, and icons.
+ */
 export const Console = {
   Log: log,
   Warn: warn,
