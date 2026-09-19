@@ -5,10 +5,14 @@ export interface WorkerConfig<K extends keyof JobRegistry> {
   name: K;
   description: string;
 }
-
 export type WorkerRun<K extends keyof JobRegistry> = (
   job: Job<JobRegistry[K]>,
 ) => unknown | Promise<unknown>;
+
+export interface WorkerDefinition<K extends keyof JobRegistry = keyof JobRegistry> {
+  config: WorkerConfig<K>;
+  run: WorkerRun<K>;
+}
 
 /**
  * Defines a type-safe BullMQ worker for processing background jobs.
@@ -34,4 +38,4 @@ export type WorkerRun<K extends keyof JobRegistry> = (
 export const defineWorker = <K extends keyof JobRegistry>(
   config: WorkerConfig<K>,
   run: WorkerRun<K>,
-) => ({ config, run });
+): WorkerDefinition<K> => ({ config, run });
