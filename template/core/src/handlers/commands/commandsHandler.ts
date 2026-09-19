@@ -2,14 +2,10 @@ import path from "node:path";
 import { config } from "@config";
 import { isCacheValid, updateCache } from "@/lib/cache";
 import { client } from "@/lib/discord";
-import type { CommandRun, defineCommand } from "@/lib/helpers/defineCommand";
-import type { defineCommandGroup } from "@/lib/helpers/defineCommandGroup";
-import type { defineSubCommand, SubCommandRun } from "@/lib/helpers/defineSubCommand";
+import type { CommandDefinition, CommandRun } from "@/lib/helpers/defineCommand";
+import type { CommandGroupDefinition } from "@/lib/helpers/defineCommandGroup";
+import type { SubCommandDefinition, SubCommandRun } from "@/lib/helpers/defineSubCommand";
 import { Console } from "@/lib/logger";
-
-type CommandDefinition = ReturnType<typeof defineCommand>;
-type CommandGroupDefinition = ReturnType<typeof defineCommandGroup>;
-type SubCommandDefinition = ReturnType<typeof defineSubCommand>;
 
 const restCommands = new Map<
   string,
