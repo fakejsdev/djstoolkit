@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
 import { client } from "@/lib/discord";
-import type { defineButton } from "@/lib/helpers/defineButton";
+import type { ButtonDefinition } from "@/lib/helpers/defineButton";
 import { Console } from "@/lib/logger";
-
-type ButtonDefinition = ReturnType<typeof defineButton>;
 
 const buttons = new Map<string, ButtonDefinition>();
 
