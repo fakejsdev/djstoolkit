@@ -11,6 +11,11 @@ export interface CommandConfig extends Omit<CommandJSON, "default_member_permiss
 }
 export type CommandRun = (i: CommandInteraction) => unknown | Promise<unknown>;
 
+export interface CommandDefinition {
+  config: CommandJSON;
+  run: CommandRun;
+}
+
 /**
  * Defines a type-safe Discord slash command with automatic option & permission resolution.
  *
@@ -32,7 +37,7 @@ export type CommandRun = (i: CommandInteraction) => unknown | Promise<unknown>;
  * );
  * ```
  */
-export const defineCommand = (config: CommandConfig, run: CommandRun) => {
+export const defineCommand = (config: CommandConfig, run: CommandRun): CommandDefinition => {
   const { permissions, options, ...rest } = config;
 
   return {
