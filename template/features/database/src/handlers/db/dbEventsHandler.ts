@@ -1,10 +1,8 @@
 import path from "node:path";
 import { config } from "@config";
-import type { defineDbEvent } from "@/lib/helpers/defineDbEvent";
+import type { DbEventDefinition } from "@/lib/helpers/defineDbEvent";
 import { Console } from "@/lib/logger";
 import { dbEmitter } from "@/lib/prisma";
-
-type DbEventDefinition = ReturnType<typeof defineDbEvent>;
 
 const dbEvents = new Map<string, DbEventDefinition>();
 
