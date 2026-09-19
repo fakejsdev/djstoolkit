@@ -10,6 +10,10 @@ export interface CommandGroupConfig extends Omit<CommandGroupJSON, "default_memb
 
 export type CommandGroupSubCommands = Array<ReturnType<typeof defineSubCommand>>;
 
+export interface CommandGroupDefinition {
+  config: CommandGroupJSON;
+  subCommands: CommandGroupSubCommands;
+}
 /**
  * Defines a slash command group aggregating multiple subcommands under a parent command (e.g. `/math add`).
  *
@@ -31,7 +35,7 @@ export type CommandGroupSubCommands = Array<ReturnType<typeof defineSubCommand>>
 export const defineCommandGroup = (
   config: CommandGroupConfig,
   subCommands: CommandGroupSubCommands,
-) => {
+): CommandGroupDefinition => {
   const { permissions, ...rest } = config;
 
   return {
