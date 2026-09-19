@@ -52,4 +52,4 @@ export interface DjsConfig {
  * });
  * ```
  */
-export const defineConfig = (config: DjsConfig) => config;
+export const defineConfig = (config: DjsConfig): DjsConfig => config;
