@@ -9,6 +9,11 @@ type ModalConfig = {
 };
 type ModalRun = (i: ModalInteraction, sessionId?: string) => unknown | Promise<unknown>;
 
+export interface ModalDefinition {
+  config: ModalConfig;
+  run: ModalRun;
+}
+
 /**
  * Defines a type-safe modal form submit interaction listener.
  *
@@ -31,4 +36,7 @@ type ModalRun = (i: ModalInteraction, sessionId?: string) => unknown | Promise<u
  * );
  * ```
  */
-export const defineModal = (config: ModalConfig, run: ModalRun) => ({ config, run });
+export const defineModal = (config: ModalConfig, run: ModalRun): ModalDefinition => ({
+  config,
+  run,
+});
