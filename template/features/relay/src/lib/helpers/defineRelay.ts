@@ -5,10 +5,14 @@ export interface RelayConfig<K extends keyof RelayRegistry> {
   name: string;
   description: string;
 }
-
 export type RelayRun<K extends keyof RelayRegistry> = (
   payload: RelayRegistry[K],
 ) => unknown | Promise<unknown>;
+
+export interface RelayDefinition<K extends keyof RelayRegistry = keyof RelayRegistry> {
+  config: RelayConfig<K>;
+  run: RelayRun<K>;
+}
 
 /**
  * Defines a type-safe internal Pub/Sub event listener for the Relay system.
@@ -35,4 +39,4 @@ export type RelayRun<K extends keyof RelayRegistry> = (
 export const defineRelay = <K extends keyof RelayRegistry>(
   config: RelayConfig<K>,
   run: RelayRun<K>,
-) => ({ config, run });
+): RelayDefinition<K> => ({ config, run });
