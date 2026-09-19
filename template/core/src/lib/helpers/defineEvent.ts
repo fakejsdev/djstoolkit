@@ -11,6 +11,11 @@ export type EventRun<T extends keyof ClientEvents> = (
   ...ars: ClientEvents[T]
 ) => unknown | Promise<unknown>;
 
+export interface EventDefinition<T extends keyof ClientEvents = keyof ClientEvents> {
+  config: EventConfig<T>;
+  run: EventRun<T>;
+}
+
 /**
  * Defines a type-safe Discord client event listener (e.g. `messageCreate`, `clientReady`).
  *
@@ -37,4 +42,4 @@ export type EventRun<T extends keyof ClientEvents> = (
 export const defineEvent = <T extends keyof ClientEvents>(
   config: EventConfig<T>,
   run: EventRun<T>,
-) => ({ config, run });
+): EventDefinition<T> => ({ config, run });
